@@ -40,9 +40,6 @@ const Home = () => {
       <section id="about" className="about">
         <div className="container">
           <div className="hero-shapes">
-            <div className="shape shape-1"></div>
-            <div className="shape shape-2"></div>
-            
           </div>
           <div className="section-header">
             <h2>Understanding Vitiligo</h2>

@@ -6,9 +6,9 @@
 
 :root {
   --primary-dark: #181212;
-  --secondary-dark: #25180d;
+  --secondary-dark: #271b12;
   --medium-brown: #423f3e;
-  --accent-brown: #362122;
+  --accent-brown: #362b21;
   --light-beige: #F2EAD3;
   --cream: #DFD7BF;
   --light-gray: #F5F6F6;
@@ -52,9 +52,11 @@ body {
 }
 
 .logo {
-  height: 40px;
+  max-width: 18vw;
+  max-height: clamp(20px, 6vw, 40px);
   width: auto;
   filter: brightness(1.1);
+  transition: max-width 0.2s, max-height 0.2s;
 }
 
 .desktop-logo {
@@ -140,7 +142,6 @@ body {
 }
 
 .shape {
-  display: none;
   position: absolute;
   border-radius: 50%;
   background: linear-gradient(135deg, rgba(141, 128, 96, 0.2) 0%, rgba(61, 37, 17, 0.2) 100%);
@@ -428,7 +429,7 @@ section {
 }
 
 .research-card {
-  background: linear-gradient(135deg, rgba(54, 33, 34, 0.2) 0%, rgba(61, 37, 17, 0.2) 100%);
+  background: linear-gradient(135deg, rgba(124, 94, 69, 0.2) 0%, rgba(128, 69, 20, 0.2) 100%);
   padding: 2.5rem;
   border-radius: 20px;
   border: 1px solid var(--primary-dark);
@@ -479,7 +480,7 @@ section {
 }
 
 .achievement-card {
-  background: rgba(54, 33, 34, 0.2);
+  background: rgba(54, 36, 23, 0.657);
   padding: 2rem;
   border-radius: 15px;
   text-align: center;
@@ -1155,7 +1156,7 @@ section {
     display: inline;
   }
 
-  .shape-3{
+  .shape{
     display: none;
   }
 }
