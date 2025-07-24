@@ -13,8 +13,8 @@ const Header = () => {
       <div className="container">
         <div className="header-content">
           <Link to="/" className="logo-link">
-            <img src="/src/assets/logo.png" alt="Chromacure" className="logo desktop-logo" />
-            <img src="/src/assets/favicon.ico" alt="Chromacure" className="logo mobile-logo" />
+            <img src="https://i.postimg.cc/bNBJSWRH/Logo-1.png" alt="Chromacure" className="logo desktop-logo" />
+            <img src="https://i.postimg.cc/Wzf2rq0b/Asset-6.png" alt="Chromacure" className="logo mobile-logo" />
           </Link>
 
           <nav className={`nav ${isMenuOpen ? "nav-open" : ""}`}>
