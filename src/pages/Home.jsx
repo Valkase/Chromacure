@@ -203,70 +203,7 @@ const Home = () => {
           </div>
         </div>
       </section>
-
-      {/* Achievements Section */}
-      <section className="achievements">
-        <div className="container">
-          <div className="section-header">
-            <h2>Research Progress</h2>
-            <p>Milestones in our development journey</p>
-          </div>
-
-          <div className="achievements-grid">
-            <div className="achievement-card">
-              <div className="card-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                </svg>
-              </div>
-              <h3>Patent Filed</h3>
-              <p>Successfully filed patent for our innovative treatment</p>
-            </div>
-
-            <div className="achievement-card">
-              <div className="card-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                  <circle cx="12" cy="8" r="7" />
-                  <polyline points="8.21,13.89 7,23 12,20 17,23 15.79,13.88" />
-                </svg>
-              </div>
-              <h3>Ethical Approval</h3>
-              <p>Obtained approval for animal testing protocols</p>
-            </div>
-
-            <div className="achievement-card">
-              <div className="card-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                  <polyline points="14,2 14,8 20,8" />
-                  <line x1="16" y1="13" x2="8" y2="13" />
-                  <line x1="16" y1="17" x2="8" y2="17" />
-                  <polyline points="10,9 9,9 8,9" />
-                </svg>
-              </div>
-              <h3>Research Publication</h3>
-              <p>Preparing scientific paper for publication</p>
-            </div>
-          </div>
-
-          <div className="implementation-note">
-            <div className="note-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <polygon points="12,2 22,8.5 22,15.5 12,22 2,15.5 2,8.5" />
-                <line x1="12" y1="22" x2="12" y2="15.5" />
-                <polyline points="7,6.5 12,9.5 17,6.5" />
-              </svg>
-            </div>
-            <div>
-              <h4>Implementation Partner</h4>
-              <p>
-                Project implemented at the <strong>National Research Centre</strong>
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
+      
       {/* Mission Section */}
       <section className="mission">
         <div className="container">
