@@ -1154,8 +1154,9 @@ section {
     max-height: clamp(70px, 6vw, 40px);
   }
 
-  .shape{
-    display: none;
+
+  .particles-container canvas {
+display: none;
   }
 }
 
