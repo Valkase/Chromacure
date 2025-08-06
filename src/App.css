@@ -30,6 +30,10 @@ body {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
+  position: relative; 
+  z-index: 1;
+  text-align: center; 
+  color: white; 
 }
 
 /* Header Styles */
@@ -39,6 +43,9 @@ body {
   left: 0;
   right: 0;
   background: rgba(255, 255, 255, 0.528);
+  margin: 0 auto;
+  max-width: 80%;
+  border-radius: 0 0 20px 20px;
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--medium-gray);
   z-index: 1000;
@@ -82,7 +89,7 @@ body {
 }
 
 .nav-link:hover {
-  color: var(--neutral-color);
+  color: #8d6343;
 }
 
 .get-support-btn {
@@ -119,75 +126,43 @@ body {
 
 /* Hero Section */
 .hero {
-  min-height: 100vh;
+  position: relative; /* Crucial: Establishes a stacking context */
+  height: 100vh; /* Example: Ensure the hero section takes up space */
   display: flex;
+  flex-direction: column; /* Or row, depending on your layout */
   align-items: center;
+  justify-content: center;
+}
+
+.hero-content {
   position: relative;
-  overflow: hidden;
-  background: linear-gradient(135deg, var(--secondary-light) 0%, var(--primary-light) 100%);
+  z-index: 2;
+
+  color: white; 
+  text-align: center;
 }
 
 .hero-background {
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  overflow: hidden;
-}
-
-.hero-shapes {
-  position: relative;
   width: 100%;
   height: 100%;
+  overflow: hidden;
+  z-index: 0;
 }
 
-.shape {
-  position: absolute;
-  border-radius: 50%;
-  background: linear-gradient(135deg, rgba(218, 206, 196, 0.3) 0%, rgba(218, 206, 196, 0.3) 100%);
+.particles-container canvas {
+  width: 100% !important; 
+  height: 100% !important; 
 }
 
-.shape-1 {
-  width: 300px;
-  height: 300px;
-  top: 10%;
-  right: 10%;
-  animation: float 6s ease-in-out infinite;
-}
-
-.shape-2 {
-  width: 200px;
-  height: 200px;
-  bottom: 20%;
-  left: 5%;
-  animation: float 8s ease-in-out infinite reverse;
-}
-
-.shape-3 {
-  width: 150px;
-  height: 150px;
-  top: 60%;
-  right: 30%;
-  animation: float 7s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%,
-  100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
-}
 
 .hero-content {
   position: relative;
-  z-index: 2;
+  z-index: 1;
+  color: white; 
   text-align: center;
-  max-width: 800px;
-  margin: 0 auto;
 }
 
 .hero-badge {
@@ -236,6 +211,9 @@ body {
 /* Button Styles */
 .btn {
   display: inline-flex;
+  position: relative;
+  z-index: 3; 
+  pointer-events: auto;
   align-items: center;
   gap: 0.5rem;
   padding: 1rem 2rem;

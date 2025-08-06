@@ -1,16 +1,23 @@
 import { Link } from "react-router-dom"
 
+import Particles from "../components/ParticlesBG"
+
 const Home = () => {
   return (
     <div className="home">
       {/* Hero Section */}
       <section className="hero">
         <div className="hero-background">
-          <div className="hero-shapes">
-            <div className="shape shape-1"></div>
-            <div className="shape shape-2"></div>
-            <div className="shape shape-3"></div>
-          </div>
+          <Particles
+            particleColors={['#000000', '#000000']}
+            particleCount={100}
+            particleSpread={30}
+            speed={0.1}
+            particleBaseSize={1100}
+            moveParticlesOnHover={false}
+            alphaParticles={true}
+            disableRotation={false}
+          />
         </div>
         <div className="container">
           <div className="hero-content">
@@ -44,9 +51,8 @@ const Home = () => {
           <div className="section-header">
             <h2>Understanding Vitiligo</h2>
             <p>A chronic autoimmune disorder affecting millions worldwide</p>
-            <div className="shape shape-2"></div>
           </div>
-          
+
           <div className="about-grid">
             <div className="about-card">
               <div className="card-icon">
@@ -203,7 +209,7 @@ const Home = () => {
           </div>
         </div>
       </section>
-      
+
       {/* Mission Section */}
       <section className="mission">
         <div className="container">
