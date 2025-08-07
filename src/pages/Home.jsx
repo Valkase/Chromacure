@@ -63,7 +63,7 @@ const Home = () => {
                 </svg>
               </div>
               <h3>What is Vitiligo?</h3>
-              <p>
+              <p style={{ color: 'black' }}>
                 Vitiligo is a chronic autoimmune disorder that results in the loss of skin pigmentation due to the
                 immune system attacking melanocytes—cells responsible for producing skin pigment.
               </p>

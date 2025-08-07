@@ -1,4 +1,6 @@
 "use client"
+import GlareHover from "./GlareHover.jsx"
+import ThemeToggle from "./ThemeToggle.jsx"
 
 import { useState } from "react"
 import { Link } from "react-router-dom"
@@ -13,7 +15,18 @@ const Header = () => {
       <div className="container">
         <div className="header-content">
           <Link to="/" className="logo-link">
-            <img src="https://i.postimg.cc/bNBJSWRH/Logo-1.png" alt="Chromacure" className="logo desktop-logo" />
+            <div style={{ position: 'relative' }}>
+              <GlareHover
+                glareColor="#ffffff87"
+                glareOpacity={0.5}
+                glareAngle={-30}
+                glareSize={500}
+                transitionDuration={800}
+                playOnce={false}
+              >
+                <p className="logo desktop-logo">VitaCure</p>
+              </GlareHover>
+            </div> 
             <img src="https://i.postimg.cc/Wzf2rq0b/Asset-6.png" alt="Chromacure" className="logo mobile-logo" />
           </Link>
 
@@ -33,6 +46,7 @@ const Header = () => {
             <Link to="/contact" className="nav-link" onClick={handleNavClick}>
               Contact
             </Link>
+            <ThemeToggle />
           </nav>
 
           <Link to="/contact" className="get-support-btn">

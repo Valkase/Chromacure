@@ -42,7 +42,7 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  background: rgba(255, 255, 255, 0.528);
+  background: rgba(255, 255, 255, 0.529);
   margin: 0 auto;
   max-width: 80%;
   border-radius: 0 0 20px 20px;
@@ -58,17 +58,26 @@ body {
   justify-content: space-between;
 }
 
+.logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
 .logo {
   max-width: 18vw;
   max-height: clamp(20px, 6vw, 40px);
   width: auto;
-  filter: brightness(1);
+  color : var(--dark-brown);
+  font-weight: 700;
+  font-size: 2em;
+  font-family: Arial, Helvetica, sans-serif;
   transition: max-width 0.2s, max-height 0.2s;
 }
 
 .desktop-logo {
   display: inline;
-  filter: invert(1) brightness(0.8);
+
 }
 
 .mobile-logo {
@@ -1350,4 +1359,63 @@ display: none;
   background: linear-gradient(135deg, var(--dark-brown) 0%, var(--neutral-color) 100%);
   transform: translateY(-2px);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark Theme Support */
+:root {
+  --primary-light: #F8F8F8;
+  --secondary-light: #EBEBEB;
+  --medium-gray: #BDBDBD;
+  --accent-gray: #CFCFCF;
+  --light-gray: #E0E0E0;
+  --dark-brown: #362B21;
+  --neutral-color: #DACEC4;
+}
+
+[data-theme="dark"] {
+  --primary-light: #1a1a1a;
+  --secondary-light: #2a2a2a;
+  --medium-gray: #4a4a4a;
+  --accent-gray: #3a3a3a;
+  --light-gray: #2f2f2f;
+  --dark-brown: #e8e8e8;
+  --neutral-color: #4a4a4a;
+}
+
+[data-theme="dark"] body {
+  background-color: var(--secondary-light);
+  color: var(--dark-brown);
+}
+
+[data-theme="dark"] .hero-background {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+}
+
+[data-theme="dark"] .particles-container canvas {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+[data-theme="dark"] .header {
+  background: rgba(42, 42, 42, 0.9);
+}
+
+[data-theme="dark"] .chat-container {
+  background: var(--secondary-light);
+  border-color: var(--medium-gray);
+}
+
+[data-theme="dark"] .chat-input {
+  background: rgba(74, 74, 74, 0.3);
+  border-color: var(--medium-gray);
+  color: var(--dark-brown);
+}
+
+[data-theme="dark"] .message.bot .message-content {
+  background: rgba(74, 74, 74, 0.3);
+  color: var(--dark-brown);
+}
+
+/* Theme transition */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
