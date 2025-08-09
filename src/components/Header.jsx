@@ -1,5 +1,4 @@
 "use client"
-import GlareHover from "./GlareHover.jsx"
 import ThemeToggle from "./ThemeToggle.jsx"
 
 import { useState } from "react"
@@ -16,16 +15,7 @@ const Header = () => {
         <div className="header-content">
           <Link to="/" className="logo-link">
             <div style={{ position: 'relative' }}>
-              <GlareHover
-                glareColor="#ffffff87"
-                glareOpacity={0.5}
-                glareAngle={-30}
-                glareSize={500}
-                transitionDuration={800}
-                playOnce={false}
-              >
                 <p className="logo desktop-logo">VitaCure</p>
-              </GlareHover>
             </div> 
             <img src="https://i.postimg.cc/Wzf2rq0b/Asset-6.png" alt="Chromacure" className="logo mobile-logo" />
           </Link>

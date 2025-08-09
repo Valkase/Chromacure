@@ -7,57 +7,57 @@ const About = () => {
   const team = [
     {
       image: "https://i.pravatar.cc/300?img=1",
-      title: "Dr. Sarah Johnson",
-      subtitle: "Lead Researcher",
-      handle: "@sarahjohnson",
+      title: "واحد كده",
+      subtitle: "بيعمل اي شغلانه",
+      handle: "@اي اسم",
       borderColor: "#3B82F6",
       gradient: "linear-gradient(145deg, #3B82F6, #000)",
-      url: "https://github.com/sarahjohnson"
+      url: "https://www.chess.com/"
     },
     {
       image: "https://i.pravatar.cc/300?img=2",
-      title: "Dr. Mike Chen",
-      subtitle: "Clinical Director",
-      handle: "@mikechen",
+      title: "Dr. ميكا",
+      subtitle: "عيل شكله حلو",
+      handle: "@ميكانيكا",
       borderColor: "#10B981",
       gradient: "linear-gradient(180deg, #10B981, #000)",
-      url: "https://linkedin.com/in/mikechen"
+      url: "https://www.youtube.com/"
     },
     {
       image: "https://i.pravatar.cc/300?img=3",
-      title: "Dr. Emily Rodriguez",
-      subtitle: "Dermatologist",
-      handle: "@emilyrod",
+      title: "واحد كده برضو",
+      subtitle: "احلى شغلانه في مصر",
+      handle: "@احللى اسم ف مصر",
       borderColor: "#F59E0B",
       gradient: "linear-gradient(165deg, #F59E0B, #000)",
-      url: "https://linkedin.com/in/emilyrod"
+      url: "https://www.facebook.com/"
     },
     {
       image: "https://i.pravatar.cc/300?img=4",
-      title: "Dr. Ahmed Hassan",
-      subtitle: "Research Scientist",
-      handle: "@ahmedhassan",
+      title: "البرنس الصغير",
+      subtitle: "منقذ البلاد",
+      handle: "@!!!!!!",
       borderColor: "#EF4444",
       gradient: "linear-gradient(195deg, #EF4444, #000)",
-      url: "https://github.com/ahmedhassan"
+      url: "https://www.tiktok.com/"
     },
     {
       image: "https://i.pravatar.cc/300?img=5",
-      title: "Dr. Lisa Park",
-      subtitle: "Patient Care Coordinator",
-      handle: "@lisapark",
+      title: "دي واحده",
+      subtitle: "مش بتعمل حاجه",
+      handle: "@(ˉ﹃ˉ)",
       borderColor: "#8B5CF6",
       gradient: "linear-gradient(225deg, #8B5CF6, #000)",
-      url: "https://linkedin.com/in/lisapark"
+      url: "https://stevenuniverse.best/"
     },
     {
       image: "https://i.pravatar.cc/300?img=6",
-      title: "Dr. James Wilson",
-      subtitle: "Technology Director",
-      handle: "@jameswilson",
+      title: "دا مش انا",
+      subtitle: "الجينيص بتاعنا",
+      handle: "@(☞ﾟヮﾟ)☞ genius",
       borderColor: "#06B6D4",
       gradient: "linear-gradient(135deg, #06B6D4, #000)",
-      url: "https://github.com/jameswilson"
+      url: "https://dictionary.cambridge.org/dictionary/english/chill"
     }
   ]
 
