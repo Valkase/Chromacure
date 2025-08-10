@@ -5,26 +5,35 @@ import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
 import { getAuth, signInAnonymously } from 'firebase/auth';
 
-// Firebase configuration - hardcoded for Netlify deployment
+// Firebase configuration from environment variables
 const firebaseConfig = {
-  apiKey: "AIzaSyBmMMzrSolqcqy0W-BZ5nSUZTrcxjNxSX8",
-  authDomain: "chromacure-4aac2.firebaseapp.com",
-  projectId: "chromacure-4aac2",
-  storageBucket: "chromacure-4aac2.firebasestorage.app",
-  messagingSenderId: "659675138326",
-  appId: "1:659675138326:web:70317441370a6d682ee837",
-  measurementId: "G-LK4JQB238F"
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
 };
 
-// Initialize Firebase app
+// Initialize Firebase app with validation
 let app;
 let db;
 let auth;
 
 try {
+  // Validate that all required config values are present
+  const requiredKeys = ['apiKey', 'authDomain', 'projectId', 'storageBucket', 'messagingSenderId', 'appId'];
+  const missingKeys = requiredKeys.filter(key => !firebaseConfig[key]);
+  
+  if (missingKeys.length > 0) {
+    throw new Error(`Missing Firebase configuration: ${missingKeys.join(', ')}`);
+  }
+
   app = initializeApp(firebaseConfig);
   db = getFirestore(app);
   auth = getAuth(app);
+  console.log("Firebase initialized successfully");
 } catch (error) {
   console.error("Error initializing Firebase:", error);
 }
