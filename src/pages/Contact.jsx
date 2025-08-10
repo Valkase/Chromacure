@@ -32,6 +32,7 @@ const getFirestoreInstance = () => {
     return getFirestore(app);
   } catch (error) {
     console.error("Error initializing Firebase:", error);
+    console.log(firebaseConfig);
     return null;
   }
 };
