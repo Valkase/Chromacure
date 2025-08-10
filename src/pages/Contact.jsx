@@ -5,10 +5,8 @@ import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
 import { getAuth, signInWithCustomToken, signInAnonymously } from 'firebase/auth';
 
-// IMPORTANT: This configuration now has placeholder values for direct inclusion.
-// For a production app, it is strongly recommended to use a secure method like
-// environment variables (e.g., a .env file) to manage these secrets.
-const firebaseConfig = {
+// Your web app's Firebase configuration from the Firebase project console
+const hardcodedFirebaseConfig = {
   apiKey: "AIzaSyBmMMzrSolqcqy0W-BZ5nSUZTrcxjNxSX8",
   authDomain: "chromacure-4aac2.firebaseapp.com",
   projectId: "chromacure-4aac2",
@@ -18,24 +16,17 @@ const firebaseConfig = {
   measurementId: "G-LK4JQB238F"
 };
 
-// Added console.log for each key to help with debugging
-console.log("Firebase config check:");
-console.log("apiKey:", firebaseConfig.apiKey);
-console.log("authDomain:", firebaseConfig.authDomain);
-console.log("projectId:", firebaseConfig.projectId);
-console.log("storageBucket:", firebaseConfig.storageBucket);
-console.log("messagingSenderId:", firebaseConfig.messagingSenderId);
-console.log("appId:", firebaseConfig.appId);
+// Determine which Firebase configuration to use.
+// This prioritizes the global variable provided by the Canvas environment,
+// otherwise, it falls back to the hardcoded configuration.
+const activeFirebaseConfig = typeof __firebase_config !== 'undefined'
+  ? JSON.parse(__firebase_config)
+  : hardcodedFirebaseConfig;
 
 // Function to safely get a Firestore instance
 const getFirestoreInstance = () => {
   try {
-    // Check if the API key is the placeholder value
-    if (firebaseConfig.apiKey === "YOUR_API_KEY") {
-      console.error("Firebase Initialization Error: API Key is a placeholder. Please replace 'YOUR_API_KEY' with your actual key.");
-      return null;
-    }
-    const app = initializeApp(firebaseConfig);
+    const app = initializeApp(activeFirebaseConfig);
     return getFirestore(app);
   } catch (error) {
     console.error("Error initializing Firebase:", error);
@@ -60,12 +51,6 @@ const Contact = () => {
 
   useEffect(() => {
     const initFirebase = async () => {
-      // Check for placeholder API key before attempting to initialize Firebase
-      if (firebaseConfig.apiKey === "YOUR_API_KEY") {
-        setError("Please update the firebaseConfig with your actual API key.");
-        return;
-      }
-      
       try {
         const firestoreDb = getFirestoreInstance();
         if (firestoreDb) {
