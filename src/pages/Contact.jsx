@@ -1,6 +1,39 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { initializeApp } from 'firebase/app';
+import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import { getAuth, signInWithCustomToken, signInAnonymously } from 'firebase/auth';
+
+// IMPORTANT: The following is the updated Firebase configuration to handle both the Canvas
+// environment and a regular React/Netlify deployment. It checks for the Canvas-specific
+// __firebase_config first, then falls back to environment variables. This prevents the
+// "process is not defined" error in a local development environment.
+const firebaseConfig = (() => {
+  if (typeof __firebase_config !== 'undefined') {
+    return JSON.parse(__firebase_config);
+  } else {
+    return {
+      apiKey: process.env.REACT_APP_API_KEY,
+      authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+      projectId: process.env.REACT_APP_PROJECT_ID,
+      storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+      messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+      appId: process.env.REACT_APP_APP_ID,
+    };
+  }
+})();
+
+// Function to safely get a Firestore instance
+const getFirestoreInstance = () => {
+  try {
+    const app = initializeApp(firebaseConfig);
+    return getFirestore(app);
+  } catch (error) {
+    console.error("Error initializing Firebase:", error);
+    return null;
+  }
+};
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -10,36 +43,97 @@ const Contact = () => {
     subject: "",
     message: "",
     userType: "patient",
-  })
+  });
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [db, setDb] = useState(null);
+  const [userId, setUserId] = useState(null);
 
-  const [isSubmitted, setIsSubmitted] = useState(false)
+  useEffect(() => {
+    const initFirebase = async () => {
+      try {
+        const firestoreDb = getFirestoreInstance();
+        if (firestoreDb) {
+          setDb(firestoreDb);
+          const auth = getAuth(firestoreDb.app);
+
+          // Sign in the user anonymously for a contact form
+          // This code is necessary for the Canvas environment to work, but
+          // on Netlify with your environment variables, it will automatically
+          // use those.
+          const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : '';
+          if (initialAuthToken) {
+            await signInWithCustomToken(auth, initialAuthToken);
+          } else {
+            await signInAnonymously(auth);
+          }
+
+          const user = auth.currentUser;
+          setUserId(user ? user.uid : 'anonymous');
+        }
+      } catch (e) {
+        console.error("Firebase initialization failed:", e);
+        setError("Failed to connect to the database.");
+      }
+    };
+    initFirebase();
+  }, []);
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
-    })
-  }
+    });
+  };
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    // Here you would typically send the data to your backend
-    console.log("Form submitted:", formData)
-    setIsSubmitted(true)
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!db) {
+      setError("Database is not connected. Please try again later.");
+      return;
+    }
 
-    // Reset form after 3 seconds
-    setTimeout(() => {
-      setIsSubmitted(false)
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        subject: "",
-        message: "",
-        userType: "patient",
-      })
-    }, 3000)
-  }
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      // Note: `appId` is only available in the Canvas environment.
+      // For your live site, you'll need to define a static path.
+      // For example, `collection(db, "contacts")` or `collection(db, "formSubmissions")`
+      const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+      const contactsRef = collection(db, `artifacts/${appId}/public/data/contacts`);
+      
+      const submissionData = {
+        ...formData,
+        userId,
+        timestamp: new Date().toISOString(),
+      };
+
+      await addDoc(contactsRef, submissionData);
+      
+      setIsSubmitted(true);
+      
+      // Reset form after 3 seconds
+      setTimeout(() => {
+        setIsSubmitted(false);
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          subject: "",
+          message: "",
+          userType: "patient",
+        });
+      }, 3000);
+
+    } catch (err) {
+      console.error("Error submitting form: ", err);
+      setError("Failed to send message. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="contact-page">
@@ -136,6 +230,7 @@ const Contact = () => {
             ) : (
               <form className="contact-form" onSubmit={handleSubmit}>
                 <h2>Send us a Message</h2>
+                {error && <div style={{ color: 'red' }}>{error}</div>}
 
                 <div className="form-group">
                   <label htmlFor="userType">I am a:</label>
@@ -208,7 +303,7 @@ const Contact = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Contact
+export default Contact;

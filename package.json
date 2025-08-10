@@ -12,6 +12,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^5.1.0",
+    "firebase": "^12.1.0",
     "gl-matrix": "^3.4.3",
     "gsap": "^3.13.0",
     "mongoose": "^8.16.4",
