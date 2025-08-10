@@ -5,11 +5,9 @@ import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
 import { getAuth, signInWithCustomToken, signInAnonymously } from 'firebase/auth';
 
-// IMPORTANT: The following is the updated Firebase configuration to handle both the Canvas
-// environment and a regular React/Netlify deployment. It checks for the Canvas-specific
-// __firebase_config first, then falls back to environment variables. This prevents the
-// "process is not defined" error in a local development environment.
-// I hate Firebase man
+// IMPORTANT: This configuration now has placeholder values for direct inclusion.
+// For a production app, it is strongly recommended to use a secure method like
+// environment variables (e.g., a .env file) to manage these secrets.
 const firebaseConfig = {
   apiKey: "AIzaSyBmMMzrSolqcqy0W-BZ5nSUZTrcxjNxSX8",
   authDomain: "chromacure-4aac2.firebaseapp.com",
@@ -20,12 +18,23 @@ const firebaseConfig = {
   measurementId: "G-LK4JQB238F"
 };
 
-// Added a console.log here to print the API key
-console.log("Firebase API Key:", firebaseConfig.apiKey);
+// Added console.log for each key to help with debugging
+console.log("Firebase config check:");
+console.log("apiKey:", firebaseConfig.apiKey);
+console.log("authDomain:", firebaseConfig.authDomain);
+console.log("projectId:", firebaseConfig.projectId);
+console.log("storageBucket:", firebaseConfig.storageBucket);
+console.log("messagingSenderId:", firebaseConfig.messagingSenderId);
+console.log("appId:", firebaseConfig.appId);
 
 // Function to safely get a Firestore instance
 const getFirestoreInstance = () => {
   try {
+    // Check if the API key is the placeholder value
+    if (firebaseConfig.apiKey === "YOUR_API_KEY") {
+      console.error("Firebase Initialization Error: API Key is a placeholder. Please replace 'YOUR_API_KEY' with your actual key.");
+      return null;
+    }
     const app = initializeApp(firebaseConfig);
     return getFirestore(app);
   } catch (error) {
@@ -51,16 +60,20 @@ const Contact = () => {
 
   useEffect(() => {
     const initFirebase = async () => {
+      // Check for placeholder API key before attempting to initialize Firebase
+      if (firebaseConfig.apiKey === "YOUR_API_KEY") {
+        setError("Please update the firebaseConfig with your actual API key.");
+        return;
+      }
+      
       try {
         const firestoreDb = getFirestoreInstance();
         if (firestoreDb) {
           setDb(firestoreDb);
           const auth = getAuth(firestoreDb.app);
 
-          // Sign in the user anonymously for a contact form
           // This code is necessary for the Canvas environment to work, but
-          // on Netlify with your environment variables, it will automatically
-          // use those.
+          // on a live site, it will sign in the user anonymously.
           const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : '';
           if (initialAuthToken) {
             await signInWithCustomToken(auth, initialAuthToken);
