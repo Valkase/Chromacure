@@ -25,6 +25,9 @@ const firebaseConfig = (() => {
   }
 })();
 
+// Added a console.log here to print the API key
+console.log("Firebase API Key:", firebaseConfig.apiKey);
+
 // Function to safely get a Firestore instance
 const getFirestoreInstance = () => {
   try {
@@ -32,7 +35,6 @@ const getFirestoreInstance = () => {
     return getFirestore(app);
   } catch (error) {
     console.error("Error initializing Firebase:", error);
-    console.log(firebaseConfig);
     return null;
   }
 };
