@@ -3,10 +3,10 @@
 import { useState, useEffect } from "react"
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
-import { getAuth, signInWithCustomToken, signInAnonymously } from 'firebase/auth';
+import { getAuth, signInAnonymously } from 'firebase/auth';
 
-// Your web app's Firebase configuration from the Firebase project console
-const hardcodedFirebaseConfig = {
+// Firebase configuration - hardcoded for Netlify deployment
+const firebaseConfig = {
   apiKey: "AIzaSyBmMMzrSolqcqy0W-BZ5nSUZTrcxjNxSX8",
   authDomain: "chromacure-4aac2.firebaseapp.com",
   projectId: "chromacure-4aac2",
@@ -16,23 +16,18 @@ const hardcodedFirebaseConfig = {
   measurementId: "G-LK4JQB238F"
 };
 
-// Determine which Firebase configuration to use.
-// This prioritizes the global variable provided by the Canvas environment,
-// otherwise, it falls back to the hardcoded configuration.
-const activeFirebaseConfig = typeof __firebase_config !== 'undefined'
-  ? JSON.parse(__firebase_config)
-  : hardcodedFirebaseConfig;
+// Initialize Firebase app
+let app;
+let db;
+let auth;
 
-// Function to safely get a Firestore instance
-const getFirestoreInstance = () => {
-  try {
-    const app = initializeApp(activeFirebaseConfig);
-    return getFirestore(app);
-  } catch (error) {
-    console.error("Error initializing Firebase:", error);
-    return null;
-  }
-};
+try {
+  app = initializeApp(firebaseConfig);
+  db = getFirestore(app);
+  auth = getAuth(app);
+} catch (error) {
+  console.error("Error initializing Firebase:", error);
+}
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -46,35 +41,27 @@ const Contact = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [db, setDb] = useState(null);
-  const [userId, setUserId] = useState(null);
+  const [isFirebaseReady, setIsFirebaseReady] = useState(false);
 
   useEffect(() => {
-    const initFirebase = async () => {
+    const initAuth = async () => {
+      if (!auth || !db) {
+        setError("Firebase initialization failed");
+        return;
+      }
+
       try {
-        const firestoreDb = getFirestoreInstance();
-        if (firestoreDb) {
-          setDb(firestoreDb);
-          const auth = getAuth(firestoreDb.app);
-
-          // This code is necessary for the Canvas environment to work, but
-          // on a live site, it will sign in the user anonymously.
-          const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : '';
-          if (initialAuthToken) {
-            await signInWithCustomToken(auth, initialAuthToken);
-          } else {
-            await signInAnonymously(auth);
-          }
-
-          const user = auth.currentUser;
-          setUserId(user ? user.uid : 'anonymous');
-        }
+        // Sign in anonymously for public contact form
+        await signInAnonymously(auth);
+        setIsFirebaseReady(true);
+        console.log("Firebase authentication successful");
       } catch (e) {
-        console.error("Firebase initialization failed:", e);
-        setError("Failed to connect to the database.");
+        console.error("Firebase authentication failed:", e);
+        setError("Failed to connect to the database: " + e.message);
       }
     };
-    initFirebase();
+
+    initAuth();
   }, []);
 
   const handleChange = (e) => {
@@ -86,8 +73,9 @@ const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!db) {
-      setError("Database is not connected. Please try again later.");
+    
+    if (!isFirebaseReady || !db) {
+      setError("Database is not ready. Please try again in a moment.");
       return;
     }
 
@@ -95,23 +83,22 @@ const Contact = () => {
     setError(null);
 
     try {
-      // Note: `appId` is only available in the Canvas environment.
-      // For your live site, you'll need to define a static path.
-      // For example, `collection(db, "contacts")` or `collection(db, "formSubmissions")`
-      const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-      const contactsRef = collection(db, `artifacts/${appId}/public/data/contacts`);
+      // Use a simple collection path for Netlify deployment
+      const contactsRef = collection(db, 'contacts');
       
       const submissionData = {
         ...formData,
-        userId,
         timestamp: new Date().toISOString(),
+        source: 'website_contact_form'
       };
 
+      console.log("Submitting data:", submissionData);
       await addDoc(contactsRef, submissionData);
       
+      console.log("Form submitted successfully");
       setIsSubmitted(true);
       
-      // Reset form after 3 seconds
+      // Reset form after 5 seconds
       setTimeout(() => {
         setIsSubmitted(false);
         setFormData({
@@ -122,11 +109,11 @@ const Contact = () => {
           message: "",
           userType: "patient",
         });
-      }, 3000);
+      }, 5000);
 
     } catch (err) {
       console.error("Error submitting form: ", err);
-      setError("Failed to send message. Please try again.");
+      setError("Failed to send message: " + err.message);
     } finally {
       setIsLoading(false);
     }
@@ -213,6 +200,12 @@ const Contact = () => {
           </div>
 
           <div className="contact-form-container">
+            {!isFirebaseReady && !error && (
+              <div className="loading-message">
+                <p>Connecting to database...</p>
+              </div>
+            )}
+            
             {isSubmitted ? (
               <div className="success-message">
                 <div className="success-icon">
@@ -227,11 +220,27 @@ const Contact = () => {
             ) : (
               <form className="contact-form" onSubmit={handleSubmit}>
                 <h2>Send us a Message</h2>
-                {error && <div style={{ color: 'red' }}>{error}</div>}
+                {error && (
+                  <div style={{ 
+                    color: 'red', 
+                    background: '#ffebee', 
+                    padding: '10px', 
+                    borderRadius: '4px',
+                    marginBottom: '15px'
+                  }}>
+                    {error}
+                  </div>
+                )}
 
                 <div className="form-group">
                   <label htmlFor="userType">I am a:</label>
-                  <select id="userType" name="userType" value={formData.userType} onChange={handleChange} required>
+                  <select 
+                    id="userType" 
+                    name="userType" 
+                    value={formData.userType} 
+                    onChange={handleChange} 
+                    required
+                  >
                     <option value="patient">Patient</option>
                     <option value="researcher">Researcher</option>
                     <option value="supporter">Supporter</option>
@@ -242,7 +251,14 @@ const Contact = () => {
                 <div className="form-row">
                   <div className="form-group">
                     <label htmlFor="name">Full Name *</label>
-                    <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} required />
+                    <input 
+                      type="text" 
+                      id="name" 
+                      name="name" 
+                      value={formData.name} 
+                      onChange={handleChange} 
+                      required 
+                    />
                   </div>
                   <div className="form-group">
                     <label htmlFor="email">Email Address *</label>
@@ -260,7 +276,13 @@ const Contact = () => {
                 <div className="form-row">
                   <div className="form-group">
                     <label htmlFor="phone">Phone Number</label>
-                    <input type="tel" id="phone" name="phone" value={formData.phone} onChange={handleChange} />
+                    <input 
+                      type="tel" 
+                      id="phone" 
+                      name="phone" 
+                      value={formData.phone} 
+                      onChange={handleChange} 
+                    />
                   </div>
                   <div className="form-group">
                     <label htmlFor="subject">Subject *</label>
@@ -287,8 +309,12 @@ const Contact = () => {
                   ></textarea>
                 </div>
 
-                <button type="submit" className="btn btn-primary submit-btn">
-                  Send Message
+                <button 
+                  type="submit" 
+                  className="btn btn-primary submit-btn"
+                  disabled={isLoading || !isFirebaseReady}
+                >
+                  {isLoading ? 'Sending...' : 'Send Message'}
                   <svg className="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                     <line x1="22" y1="2" x2="11" y2="13" />
                     <polygon points="22,2 15,22 11,13 2,9 22,2" />
