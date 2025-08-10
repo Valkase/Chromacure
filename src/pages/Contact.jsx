@@ -9,6 +9,7 @@ import { getAuth, signInWithCustomToken, signInAnonymously } from 'firebase/auth
 // environment and a regular React/Netlify deployment. It checks for the Canvas-specific
 // __firebase_config first, then falls back to environment variables. This prevents the
 // "process is not defined" error in a local development environment.
+// I hate Firebase man
 const firebaseConfig = (() => {
   if (typeof __firebase_config !== 'undefined') {
     return JSON.parse(__firebase_config);
