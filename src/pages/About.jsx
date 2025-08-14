@@ -198,7 +198,7 @@ const About = () => {
             <h2>Meet Our Team</h2>
             <p>Dedicated professionals working to advance vitiligo treatment</p>
           </div>
-          <div className="team-grid">
+          {/* <div className="team-grid">
             <ChromaGrid
               items={team}
               radius={300}
@@ -206,7 +206,8 @@ const About = () => {
               fadeOut={0.6}
               ease="power3.out"
             />
-          </div>
+          </div> */}
+          
         </div>
       </section>
 
