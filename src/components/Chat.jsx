@@ -69,7 +69,7 @@ const Chat = () => {
               </svg>
             </div>
             <div className="chat-info">
-              <h4>Chromacure Support</h4>
+              <h4>Vitacure Support</h4>
               <span className="status">Online</span>
             </div>
           </div>

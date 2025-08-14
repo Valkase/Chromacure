@@ -17,7 +17,7 @@ const Header = () => {
             <div style={{ position: 'relative' }}>
                 <p className="logo desktop-logo">VitaCure</p>
             </div> 
-            <img src="https://i.postimg.cc/Wzf2rq0b/Asset-6.png" alt="Chromacure" className="logo mobile-logo" />
+            <img src="https://i.postimg.cc/Wzf2rq0b/Asset-6.png" alt="Vitacure" className="logo mobile-logo" />
           </Link>
 
           <nav className={`nav ${isMenuOpen ? "nav-open" : ""}`}>

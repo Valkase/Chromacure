@@ -5,16 +5,14 @@
 }
 
 :root {
-  --primary-light: #F8F8F8;
-  --secondary-light: #EBEBEB;
-  --medium-gray: #BDBDBD;
-  --accent-gray: #CFCFCF;
-  --light-gray: #E0E0E0;
-  --dark-brown: #362B21;
-  --neutral-color: #DACEC4;
+  --primary-light: #f8f8f8;
+  --secondary-light: #ebebeb;
+  --medium-gray: #bdbdbd;
+  --accent-gray: #cfcfcf;
+  --light-gray: #e0e0e0;
+  --dark-brown: #362b21;
+  --neutral-color: #dacec4;
 }
-
-
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
@@ -30,10 +28,10 @@ body {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
-  position: relative; 
+  position: relative;
   z-index: 1;
-  text-align: center; 
-  color: white; 
+  text-align: center;
+  color: white;
 }
 
 /* Header Styles */
@@ -68,7 +66,7 @@ body {
   max-width: 18vw;
   max-height: clamp(20px, 6vw, 40px);
   width: auto;
-  color : var(--dark-brown);
+  color: var(--dark-brown);
   font-weight: 700;
   font-size: 2em;
   font-family: Arial, Helvetica, sans-serif;
@@ -77,7 +75,6 @@ body {
 
 .desktop-logo {
   display: inline;
-
 }
 
 .mobile-logo {
@@ -128,7 +125,7 @@ body {
 .menu-toggle span {
   width: 25px;
   height: 3px;
-  background: #362B21;
+  background: #362b21;
   margin: 3px 0;
   transition: 0.3s;
 }
@@ -146,8 +143,7 @@ body {
 .hero-content {
   position: relative;
   z-index: 2;
-
-  color: white; 
+  color: white;
   text-align: center;
 }
 
@@ -162,16 +158,8 @@ body {
 }
 
 .particles-container canvas {
-  width: 100% !important; 
-  height: 100% !important; 
-}
-
-
-.hero-content {
-  position: relative;
-  z-index: 1;
-  color: white; 
-  text-align: center;
+  width: 100% !important;
+  height: 100% !important;
 }
 
 .hero-badge {
@@ -221,7 +209,7 @@ body {
 .btn {
   display: inline-flex;
   position: relative;
-  z-index: 3; 
+  z-index: 3;
   pointer-events: auto;
   align-items: center;
   gap: 0.5rem;
@@ -408,6 +396,100 @@ section {
 .challenge-card p {
   color: var(--dark-brown);
   font-size: 0.9rem;
+}
+
+/* Treatment Challenges Section */
+.treatment-challenges {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  margin-top: 2rem;
+}
+
+.challenge-highlight {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  background: rgba(218, 206, 196, 0.2);
+  padding: 2.5rem;
+  border-radius: 15px;
+  border: 1px solid var(--medium-gray);
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.challenge-highlight:hover {
+  transform: translateY(-5px);
+  background: rgba(218, 206, 196, 0.3);
+}
+
+.challenge-icon {
+  flex-shrink: 0;
+  width: 60px;
+  height: 60px;
+  background: rgba(54, 43, 33, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.challenge-icon svg {
+  width: 30px;
+  height: 30px;
+  color: var(--dark-brown);
+}
+
+.challenge-content {
+  flex: 1;
+  text-align: left;
+}
+
+.challenge-content h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--dark-brown);
+}
+
+.challenge-content p {
+  color: var(--dark-brown);
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.highlight-text {
+  font-weight: 600;
+  color: var(--dark-brown);
+  background: rgba(218, 206, 196, 0.3);
+  padding: 1rem;
+  border-radius: 8px;
+  border-left: 4px solid var(--dark-brown);
+}
+
+.cost-example {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(255, 255, 255, 0.5);
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+}
+
+.cost-label {
+  font-weight: 600;
+  color: var(--dark-brown);
+}
+
+.cost-amount {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #d32f2f;
+}
+
+.cost-description {
+  color: var(--dark-brown);
+  font-style: italic;
 }
 
 /* Research Section */
@@ -667,13 +749,89 @@ section {
   color: var(--dark-brown);
 }
 
+/* Social Impact Section */
+.social-impact {
+  background: var(--primary-light);
+}
+
+.impact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.impact-card {
+  background: rgba(218, 206, 196, 0.2);
+  padding: 2rem;
+  border-radius: 15px;
+  text-align: center;
+  border: 1px solid var(--medium-gray);
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.impact-card:hover {
+  transform: translateY(-5px);
+  background: rgba(218, 206, 196, 0.3);
+}
+
+.impact-card .card-icon {
+  margin: 0 auto 1.5rem;
+  width: 60px;
+  height: 60px;
+  background: rgba(54, 43, 33, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.impact-card .card-icon svg {
+  width: 30px;
+  height: 30px;
+  color: var(--dark-brown);
+}
+
+.impact-card h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--dark-brown);
+}
+
+.impact-card p {
+  color: var(--dark-brown);
+  line-height: 1.6;
+}
+
+.vicious-cycle {
+  background: rgba(211, 47, 47, 0.1);
+  padding: 2rem;
+  border-radius: 15px;
+  border: 2px solid rgba(211, 47, 47, 0.2);
+  text-align: center;
+}
+
+.vicious-cycle h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #d32f2f;
+}
+
+.vicious-cycle p {
+  color: var(--dark-brown);
+  line-height: 1.6;
+  font-size: 1.1rem;
+}
+
 /* Contact Form - Mobile First Responsive Design */
 .contact-form-container {
   background: rgba(218, 206, 196, 0.7);
   padding: 1.5rem 1rem;
   border-radius: 16px;
   border: 1px solid var(--medium-gray);
-  box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
   max-width: 600px;
   margin: 0 auto;
   width: 100%;
@@ -800,7 +958,7 @@ section {
 .submit-btn:hover:not(:disabled) {
   background: linear-gradient(90deg, var(--dark-brown), var(--neutral-color));
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .submit-btn:hover:not(:disabled) .btn-icon {
@@ -870,47 +1028,72 @@ section {
     padding: 2rem 1.5rem;
     border-radius: 20px;
   }
-  
+
   .contact-form h2 {
     font-size: 1.75rem;
     margin-bottom: 2rem;
   }
-  
+
   .form-row {
     flex-direction: row;
     gap: 1.5rem;
   }
-  
+
   .form-group {
     margin-bottom: 1.5rem;
   }
-  
+
   .form-row {
     margin-bottom: 1.5rem;
   }
-  
+
   .submit-btn {
     font-size: 1.1rem;
     padding: 1rem 2rem;
     border-radius: 30px;
   }
-  
+
   .success-message {
     padding: 3rem 2rem;
   }
-  
+
   .success-icon {
     width: 80px;
     height: 80px;
   }
-  
+
   .success-icon svg {
     width: 40px;
     height: 40px;
   }
-  
+
   .success-message h3 {
     font-size: 2rem;
+  }
+
+  .challenge-highlight {
+    flex-direction: column;
+    text-align: center;
+    padding: 2rem;
+  }
+
+  .challenge-content {
+    text-align: center;
+  }
+
+  .cost-example {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
+  }
+
+  .treatment-challenges {
+    gap: 2rem;
+  }
+
+  .impact-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 }
 
@@ -1113,7 +1296,6 @@ section {
   background: transparent;
 }
 
-
 .message {
   display: flex;
 }
@@ -1270,9 +1452,58 @@ section {
     max-height: clamp(70px, 6vw, 40px);
   }
 
-
   .particles-container canvas {
-display: none;
+    display: none;
+  }
+
+  /* Enhanced nutrition page mobile styles */
+  .nutrition-page {
+    padding-top: 80px;
+  }
+
+  .nutrition-header {
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+  }
+
+  .nutrition-header h1 {
+    font-size: 2.5rem;
+  }
+
+  .nutrition-header p {
+    font-size: 1rem;
+    margin-top: 0.5rem;
+  }
+
+  .nutrition-section {
+    margin-bottom: 2.5rem;
+    padding: 0 1rem;
+  }
+
+  .nutrition-section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .nutrition-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .nutrition-card {
+    padding: 1.5rem;
+    border-radius: 12px;
+  }
+
+  .nutrition-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .nutrition-card p {
+    font-size: 0.95rem;
+    line-height: 1.5;
   }
 }
 
@@ -1283,6 +1514,19 @@ display: none;
   .form-row {
     flex-direction: column;
     gap: 0.5rem;
+  }
+
+  /* Additional nutrition page styles for smaller screens */
+  .nutrition-header h1 {
+    font-size: 2.2rem;
+  }
+
+  .nutrition-section h2 {
+    font-size: 1.4rem;
+  }
+
+  .nutrition-card {
+    padding: 1.2rem;
   }
 }
 
@@ -1336,58 +1580,102 @@ display: none;
     margin: 0 0.5rem;
     border-radius: 12px;
   }
-  
-  .contact-form h2 {
-    font-size: 1.25rem;
-    margin-bottom: 1.25rem;
+
+  /* Mobile-first nutrition page optimizations */
+  .nutrition-page {
+    padding-top: 70px;
   }
-  
-  .form-group {
-    margin-bottom: 1rem;
+
+  .nutrition-header {
+    margin-bottom: 1.5rem;
+    padding: 0 0.5rem;
   }
-  
-  .form-row {
-    gap: 1rem;
-    margin-bottom: 1rem;
+
+  .nutrition-header h1 {
+    font-size: 1.8rem;
+    line-height: 1.2;
   }
-  
-  .form-group input,
-  .form-group select,
-  .form-group textarea {
-    padding: 0.75rem 0.875rem;
-    font-size: 16px; /* Prevents zoom on iOS */
-  }
-  
-  .submit-btn {
-    padding: 0.875rem 1rem;
-    font-size: 0.95rem;
-    margin-top: 1.25rem;
-  }
-  
-  .success-message {
-    padding: 1.5rem 0.75rem;
-  }
-  
-  .success-message h3 {
-    font-size: 1.25rem;
-  }
-  
-  .success-message p {
+
+  .nutrition-header p {
     font-size: 0.9rem;
   }
-}
 
+  .nutrition-section {
+    margin-bottom: 2rem;
+    padding: 0 0.5rem;
+  }
+
+  .nutrition-section h2 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+  }
+
+  .nutrition-grid {
+    gap: 1rem;
+  }
+
+  .nutrition-card {
+    padding: 1rem;
+    border-radius: 10px;
+  }
+
+  .nutrition-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .nutrition-card p {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+
+  .coming-soon-notice {
+    padding: 2rem 1rem;
+    margin: 1rem 0.5rem;
+  }
+
+  .notice-icon {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 1.5rem;
+  }
+
+  .notice-icon svg {
+    width: 30px;
+    height: 30px;
+  }
+
+  .challenge-highlight {
+    padding: 1.5rem;
+  }
+
+  .challenge-content h3 {
+    font-size: 1.3rem;
+  }
+
+  .cost-amount {
+    font-size: 1.3rem;
+  }
+
+  .vicious-cycle {
+    padding: 1.5rem;
+  }
+
+  .vicious-cycle h3 {
+    font-size: 1.3rem;
+  }
+}
 
 /* Desktop breakpoint */
 @media (min-width: 1024px) {
   .contact-form-container {
     padding: 2.5rem 2rem;
   }
-  
+
   .contact-form h2 {
     font-size: 2rem;
   }
-  
+
   .form-group input,
   .form-group select,
   .form-group textarea {
@@ -1514,6 +1802,7 @@ display: none;
   color: var(--dark-brown);
   line-height: 1.6;
 }
+
 .placeholder-card a {
   display: inline-block;
   margin-top: 1.5rem;
@@ -1524,6 +1813,7 @@ display: none;
   text-decoration: none;
   font-weight: 600;
 }
+
 .placeholder-card a:hover {
   background: linear-gradient(135deg, var(--dark-brown) 0%, var(--neutral-color) 100%);
   transform: translateY(-2px);
@@ -1532,13 +1822,13 @@ display: none;
 
 /* Dark Theme Support */
 :root {
-  --primary-light: #F8F8F8;
-  --secondary-light: #EBEBEB;
-  --medium-gray: #BDBDBD;
-  --accent-gray: #CFCFCF;
-  --light-gray: #E0E0E0;
-  --dark-brown: #362B21;
-  --neutral-color: #DACEC4;
+  --primary-light: #f8f8f8;
+  --secondary-light: #ebebeb;
+  --medium-gray: #bdbdbd;
+  --accent-gray: #cfcfcf;
+  --light-gray: #e0e0e0;
+  --dark-brown: #362b21;
+  --neutral-color: #dacec4;
 }
 
 [data-theme="dark"] {
@@ -1568,7 +1858,7 @@ display: none;
   background: rgba(42, 42, 42, 0.9);
 }
 
-[data-theme="dark"] .nav{
+[data-theme="dark"] .nav {
   background-color: rgb(42, 42, 42);
 }
 

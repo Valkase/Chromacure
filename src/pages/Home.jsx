@@ -9,7 +9,7 @@ const Home = () => {
       <section className="hero">
         <div className="hero-background">
           <Particles
-            particleColors={['#000000', '#000000']}
+            particleColors={["#000000", "#000000"]}
             particleCount={100}
             particleSpread={30}
             speed={0.1}
@@ -46,8 +46,7 @@ const Home = () => {
       {/* About Section */}
       <section id="about" className="about">
         <div className="container">
-          <div className="hero-shapes">
-          </div>
+          <div className="hero-shapes"></div>
           <div className="section-header">
             <h2>Understanding Vitiligo</h2>
             <p>A chronic autoimmune disorder affecting millions worldwide</p>
@@ -63,7 +62,7 @@ const Home = () => {
                 </svg>
               </div>
               <h3>What is Vitiligo?</h3>
-              <p style={{ color: 'black' }}>
+              <p style={{ color: "black" }}>
                 Vitiligo is a chronic autoimmune disorder that results in the loss of skin pigmentation due to the
                 immune system attacking melanocytes—cells responsible for producing skin pigment.
               </p>
@@ -99,57 +98,139 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Challenges Section */}
       <section className="challenges">
         <div className="container">
           <div className="section-header">
-            <h2>Current Challenges</h2>
-            <p>Understanding the obstacles patients face today</p>
+            <h2>Treatment Challenges</h2>
+            <p>Understanding the barriers that make patients lose hope</p>
           </div>
 
-          <div className="challenges-grid">
-            <div className="challenge-card">
-              <div className="card-icon">
+          <div className="treatment-challenges">
+            <div className="challenge-highlight">
+              <div className="challenge-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                   <circle cx="12" cy="12" r="10" />
                   <polyline points="12,6 12,12 16,14" />
                 </svg>
               </div>
-              <h3>Long Duration</h3>
-              <p>Treatment can extend from 1 to 7 years</p>
+              <div className="challenge-content">
+                <h3>Throughout the Treatment Period</h3>
+                <p>
+                  One of the biggest factors that makes vitiligo patients lose hope in their treatment is the long
+                  duration, as they often see little to no noticeable improvement. This depends on the treatment itself,
+                  the patient's mental state, and their attention to proper nutrition.
+                </p>
+                <p className="highlight-text">
+                  For this reason, we have redesigned and improved all these aspects to address this issue and
+                  significantly reduce the treatment time.
+                </p>
+              </div>
             </div>
 
-            <div className="challenge-card">
-              <div className="card-icon">
+            <div className="challenge-highlight">
+              <div className="challenge-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                   <line x1="12" y1="1" x2="12" y2="23" />
                   <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
                 </svg>
               </div>
-              <h3>High Costs</h3>
-              <p>Treatments cost up to $1,950, limiting access</p>
+              <div className="challenge-content">
+                <h3>The High Cost of Vitiligo Treatment</h3>
+                <p>
+                  Treating vitiligo is often expensive because it requires using multiple medications, not just one. On
+                  average, a vitiligo patient consumes at least two packages of treatment per month. In addition, if
+                  they also use tablets, vitamins, ointments, or supportive formulations, the financial burden becomes
+                  significant over time—especially for middle-income patients.
+                </p>
+                <div className="cost-example">
+                  <span className="cost-label">FDA Approved Treatment:</span>
+                  <span className="cost-amount">$1,950</span>
+                  <span className="cost-description">for just one tube of cream</span>
+                </div>
+                <p className="highlight-text">
+                  We have addressed this issue by ensuring we provide the best quality at the best possible price.
+                </p>
+              </div>
             </div>
+          </div>
+        </div>
+      </section>
 
-            <div className="challenge-card">
+      <section className="social-impact">
+        <div className="container">
+          <div className="section-header">
+            <h2>The Social Impact of Vitiligo</h2>
+            <p>Understanding the psychological burden beyond the physical symptoms</p>
+          </div>
+
+          <div className="impact-grid">
+            <div className="impact-card">
               <div className="card-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                  <circle cx="9" cy="7" r="4" />
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75" />
                 </svg>
               </div>
-              <h3>Social Impact</h3>
-              <p>Stigma leading to depression and anxiety</p>
+              <h3>Social Stigma</h3>
+              <p>
+                Misconceptions about vitiligo being contagious lead to uncomfortable stares and social avoidance,
+                creating psychological isolation and feelings of rejection.
+              </p>
             </div>
 
-            <div className="challenge-card">
+            <div className="impact-card">
               <div className="card-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                   <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
                   <circle cx="12" cy="12" r="3" />
                 </svg>
               </div>
-              <h3>Low Awareness</h3>
-              <p>Limited understanding due to no physical pain</p>
+              <h3>Low Self-Confidence</h3>
+              <p>
+                Visible patches, especially on face or hands, cause patients to avoid eye contact, social gatherings,
+                and new relationships, significantly impacting their confidence.
+              </p>
             </div>
+
+            <div className="impact-card">
+              <div className="card-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                  <circle cx="9" cy="7" r="4" />
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                </svg>
+              </div>
+              <h3>Employment & Marriage Discrimination</h3>
+              <p>
+                Patients may face difficulties in job opportunities or marriage prospects due to appearance-based
+                discrimination, despite vitiligo not affecting physical abilities.
+              </p>
+            </div>
+
+            <div className="impact-card">
+              <div className="card-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                </svg>
+              </div>
+              <h3>Depression & Anxiety</h3>
+              <p>
+                Constant psychological pressure from stigma and isolation increases risk of depression, social anxiety,
+                and PTSD, creating a vicious cycle that can accelerate vitiligo spread.
+              </p>
+            </div>
+          </div>
+
+          <div className="vicious-cycle">
+            <h3>Breaking the Vicious Cycle</h3>
+            <p>
+              Psychological stress elevates cortisol levels, potentially accelerating vitiligo spread, which increases
+              frustration and traps patients in a destructive cycle. Our comprehensive approach addresses both the
+              physical and psychological aspects of vitiligo.
+            </p>
           </div>
         </div>
       </section>
@@ -158,15 +239,15 @@ const Home = () => {
       <section id="research" className="research">
         <div className="container">
           <div className="section-header">
-            <h2>Our Solution</h2>
-            <p>A comprehensive approach combining innovation and support</p>
+            <h2>Our Comprehensive Solution</h2>
+            <p>Breaking the cycle with innovation, affordability, and support</p>
           </div>
 
           <div className="research-grid">
             <div className="research-card">
               <div className="card-header">
                 <div className="card-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style={{ color: 'var(--primary-light)' }}>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style={{ color: "var(--primary-light)" }}>
                     <circle cx="12" cy="12" r="5" />
                     <line x1="12" y1="1" x2="12" y2="3" />
                     <line x1="12" y1="21" x2="12" y2="23" />
@@ -184,26 +265,26 @@ const Home = () => {
               <ul className="feature-list">
                 <li>Reactivation of melanocytes to restore natural skin color</li>
                 <li>Significantly reduced treatment duration</li>
-                <li>Affordable and competitive alternative</li>
-                <li>Addresses common side effects</li>
+                <li>Affordable and competitive alternative to $1,950 treatments</li>
+                <li>Addresses common side effects and nutritional factors</li>
               </ul>
             </div>
 
             <div className="research-card">
               <div className="card-header">
                 <div className="card-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style={{ color: 'var(--primary-light)' }}>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style={{ color: "var(--primary-light)" }}>
                     <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
                   </svg>
                 </div>
-                <h3>Patient Support</h3>
-                <p>Comprehensive online support platform</p>
+                <h3>Psychological Support</h3>
+                <p>Comprehensive mental health and social support</p>
               </div>
               <ul className="feature-list">
-                <li>Online platform offering psychological support</li>
+                <li>Cognitive behavioral therapy and counseling support</li>
                 <li>Progress tracking and vitiligo type identification</li>
-                <li>Educational resources for disease management</li>
-                <li>Enhanced mental well-being support</li>
+                <li>Educational resources and practical guidance</li>
+                <li>Public awareness campaigns to reduce stigma</li>
               </ul>
             </div>
           </div>
