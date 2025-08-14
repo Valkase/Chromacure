@@ -138,12 +138,7 @@ const Contact = () => {
                 </svg>
               </div>
               <div>
-                <h3>Address</h3>
-                <p>
-                  National Research Centre
-                  <br />
-                  Cairo, Egypt
-                </p>
+                
               </div>
             </div>
 
@@ -157,9 +152,9 @@ const Contact = () => {
               <div>
                 <h3>Email</h3>
                 <p>
-                  info@chromacure.com
+                  info@vitacure.com
                   <br />
-                  support@chromacure.com
+                  support@vitacure.com
                 </p>
               </div>
             </div>
@@ -171,12 +166,7 @@ const Contact = () => {
                 </svg>
               </div>
               <div>
-                <h3>Phone</h3>
-                <p>
-                  +20 123 456 7890
-                  <br />
-                  +20 987 654 3210
-                </p>
+              
               </div>
             </div>
 
