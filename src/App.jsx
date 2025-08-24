@@ -32,7 +32,7 @@ function App() {
           <Route path="/research-collaboration" element={<ResearchCollaboration />} />
           <Route path="/support-mission" element={<SupportMission />} />
         </Routes>
-        <Chat />
+        {/* <Chat /> */}
       </div>
     </Router>
   )

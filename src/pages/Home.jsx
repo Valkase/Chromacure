@@ -1,10 +1,18 @@
 import { Link } from "react-router-dom"
 
+import { useState } from "react"
 import Particles from "../components/ParticlesBG"
+import AuthOverlay from "../components/AuthOverlay"
 
 const Home = () => {
+  const [isAuthOpen , setIsAuthOpen] = useState(false)
+
   return (
     <div className="home">
+      <AuthOverlay 
+        isOpen={isAuthOpen} 
+        onClose={() => setIsAuthOpen(false)} 
+      />
       {/* Hero Section */}
       <section className="hero">
         <div className="hero-background">
@@ -29,12 +37,12 @@ const Home = () => {
               Towards an Innovative Treatment for Vitiligo and Comprehensive Patient Support
             </p>
             <div className="hero-buttons">
-              <Link to="/explore-research" className="btn btn-primary">
-                Explore Research
+              <button className="btn btn-primary" onClick={() => setIsAuthOpen(true)}>
+                Join Us Now !!
                 <svg className="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                   <path d="M5 12h14M12 5l7 7-7 7" />
                 </svg>
-              </Link>
+              </button>
               <Link to="/contact" className="btn btn-secondary">
                 Get Support
               </Link>
