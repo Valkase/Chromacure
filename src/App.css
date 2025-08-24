@@ -1107,82 +1107,279 @@ section {
 .nutrition-header {
   text-align: center;
   margin-bottom: 4rem;
+  padding: 0 1rem;
 }
 
 .nutrition-header h1 {
   font-size: 3rem;
   margin-bottom: 1rem;
   color: var(--dark-brown);
+  font-weight: 700;
+}
+
+.nutrition-header p {
+  font-size: 1.2rem;
+  color: var(--dark-brown);
+  margin-bottom: 2rem;
+  opacity: 0.8;
+}
+
+.nutrition-hero-image {
+  max-width: 800px;
+  margin: 0 auto;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.hero-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.section-title-with-icon {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.section-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(102, 126, 234, 0.1);
+  color: #667eea;
+  flex-shrink: 0;
+}
+
+.section-icon.warning {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+.section-icon.info {
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+}
+
+.section-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.section-description {
+  margin-bottom: 2rem;
+  color: var(--dark-brown);
+  font-size: 1.1rem;
+  text-align: center;
+  opacity: 0.8;
 }
 
 .nutrition-section {
-  margin-bottom: 4rem;
+  margin-bottom: 5rem;
+  padding: 0 1rem;
 }
 
 .nutrition-section h2 {
   font-size: 2rem;
-  margin-bottom: 2rem;
-  color: #667eea;
+  margin: 0;
+  color: var(--dark-brown);
+  font-weight: 600;
 }
 
 .nutrition-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 2rem;
   margin-bottom: 3rem;
 }
 
+.drinks-grid {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
 .nutrition-card {
-  background: rgba(218, 206, 196, 0.2);
-  border: 1px solid var(--medium-gray);
-  padding: 2rem;
-  border-radius: 15px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid var(--light-gray);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
 
 .nutrition-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
 }
 
-.nutrition-card h3 {
-  font-size: 1.3rem;
-  margin-bottom: 1rem;
+.card-image {
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+  background: var(--secondary-light);
+}
+
+.card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.nutrition-card:hover .card-img {
+  transform: scale(1.05);
+}
+
+.card-content {
+  padding: 1.5rem;
+}
+
+.card-icon-title {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem 1.5rem 1rem;
+}
+
+.card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.card-icon.avoid {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+.card-icon.good {
+  background: rgba(34, 197, 94, 0.1);
+  color: #22c55e;
+}
+
+.card-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.card-icon-title h3 {
+  font-size: 1.2rem;
+  margin: 0;
   color: var(--dark-brown);
+  font-weight: 600;
 }
 
 .nutrition-card p {
   color: var(--dark-brown);
+  line-height: 1.6;
+  margin: 0;
+  padding: 0 1.5rem 1.5rem;
 }
 
-.coming-soon-notice {
-  background: rgba(218, 206, 196, 0.2);
-  border: 1px solid rgba(218, 206, 196, 0.4);
-  padding: 3rem;
-  border-radius: 20px;
-  text-align: center;
+.featured-card {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(102, 126, 234, 0.1) 100%);
+  border: 2px solid rgba(102, 126, 234, 0.2);
+}
+
+.featured-card .card-image {
+  height: 220px;
+}
+
+.avoid-card {
+  border-left: 4px solid #ef4444;
+}
+
+.good-card {
+  border-left: 4px solid #22c55e;
+}
+
+.info-card {
+  background: rgba(59, 130, 246, 0.05);
+  border: 2px solid rgba(59, 130, 246, 0.2);
+}
+
+.info-card .card-image {
+  height: 200px;
+}
+
+.alternatives-section {
   margin-top: 3rem;
 }
 
-.notice-icon {
-  width: 80px;
-  height: 80px;
-  background: rgba(218, 206, 196, 0.3);
-  border-radius: 50%;
+.alternatives-title {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  color: var(--dark-brown);
+  font-weight: 600;
+}
+
+.alternatives-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(34, 197, 94, 0.1);
+  color: #22c55e;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 2rem;
 }
 
-.notice-icon svg {
-  width: 40px;
-  height: 40px;
-  color: var(--dark-brown);
+.alternatives-icon svg {
+  width: 20px;
+  height: 20px;
 }
 
-.coming-soon-notice h3 {
+.key-takeaway-card {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+  border: 2px solid rgba(102, 126, 234, 0.3);
+  padding: 2.5rem;
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.takeaway-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(102, 126, 234, 0.2);
+  color: #667eea;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+}
+
+.takeaway-icon svg {
+  width: 28px;
+  height: 28px;
+}
+
+.key-takeaway-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #667eea;
+  font-weight: 700;
+}
+
+.key-takeaway-card p {
+  font-size: 1.1rem;
+  line-height: 1.7;
   color: var(--dark-brown);
+  padding: 0;
 }
 
 /* Chat Widget */
@@ -1456,7 +1653,6 @@ section {
     display: none;
   }
 
-  /* Enhanced nutrition page mobile styles */
   .nutrition-page {
     padding-top: 80px;
   }
@@ -1505,6 +1701,42 @@ section {
     font-size: 0.95rem;
     line-height: 1.5;
   }
+
+  .nutrition-hero-image {
+    margin: 0 1rem;
+    border-radius: 15px;
+  }
+
+  .section-title-with-icon {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
+  }
+
+  .section-title-with-icon h2 {
+    font-size: 1.8rem;
+  }
+
+  .card-image {
+    height: 160px;
+  }
+
+  .featured-card .card-image,
+  .info-card .card-image {
+    height: 180px;
+  }
+
+  .alternatives-title {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
+    font-size: 1.3rem;
+  }
+
+  .key-takeaway-card {
+    padding: 2rem 1.5rem;
+    margin: 0 1rem;
+  }
 }
 
 @media (max-width: 600px) {
@@ -1516,7 +1748,6 @@ section {
     gap: 0.5rem;
   }
 
-  /* Additional nutrition page styles for smaller screens */
   .nutrition-header h1 {
     font-size: 2.2rem;
   }
@@ -1581,7 +1812,6 @@ section {
     border-radius: 12px;
   }
 
-  /* Mobile-first nutrition page optimizations */
   .nutrition-page {
     padding-top: 70px;
   }
@@ -1663,6 +1893,52 @@ section {
 
   .vicious-cycle h3 {
     font-size: 1.3rem;
+  }
+
+  .card-image {
+    height: 140px;
+  }
+
+  .card-icon-title {
+    padding: 1rem 1rem 0.5rem;
+    gap: 0.75rem;
+  }
+
+  .card-icon {
+    width: 35px;
+    height: 35px;
+  }
+
+  .card-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .card-icon-title h3 {
+    font-size: 1.1rem;
+  }
+
+  .nutrition-card p {
+    padding: 0 1rem 1rem;
+    font-size: 0.95rem;
+  }
+
+  .key-takeaway-card {
+    padding: 1.5rem 1rem;
+    margin: 0 0.5rem;
+  }
+
+  .takeaway-icon {
+    width: 50px;
+    height: 50px;
+  }
+
+  .key-takeaway-card h3 {
+    font-size: 1.3rem;
+  }
+
+  .key-takeaway-card p {
+    font-size: 1rem;
   }
 }
 
