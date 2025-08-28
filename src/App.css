@@ -1435,10 +1435,6 @@ section {
     gap: 2rem;
   }
 
-  .chat-container {
-    width: 300px;
-    height: 400px;
-  }
 
   .section-header h2 {
     font-size: 2rem;
@@ -1603,11 +1599,6 @@ section {
   .implementation-note {
     flex-direction: column;
     text-align: center;
-  }
-
-  .chat-container {
-    width: 280px;
-    height: 350px;
   }
 
   .section-header h2 {
@@ -1824,7 +1815,6 @@ section {
 /* Print Styles */
 @media print {
   .header,
-  .chat-widget,
   .hero-buttons,
   .mission-buttons {
     display: none;
@@ -1955,16 +1945,6 @@ section {
   background-color: #d8d8d8;
 }
 
-[data-theme="dark"] .chat-container {
-  background: var(--secondary-light);
-  border-color: var(--medium-gray);
-}
-
-[data-theme="dark"] .chat-input {
-  background: rgba(74, 74, 74, 0.3);
-  border-color: var(--medium-gray);
-  color: var(--dark-brown);
-}
 
 [data-theme="dark"] .message.bot .message-content {
   background: rgba(74, 74, 74, 0.3);

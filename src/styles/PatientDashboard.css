@@ -78,20 +78,58 @@ input, textarea {
 }
 
 .sec-header-content {
-  position: fixed;
+  position: sticky;
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: space-between; /* evenly spread, not too wide */
   top: 0;
   left: 0;
   right: 0;
   background: var(--primary-light);
   margin: 0 auto;
-  max-width: 80%;
-  height: 12%;
-  border-radius: 0 0 20px 20px;
+  width: 100%;
+  max-width: 1200px; /* keeps centered */
+  padding: 0.5rem 1.25rem; /* balanced padding */
+  height: 64px; /* fixed, good desktop height */
+  border-radius: 0 0 16px 16px;
   backdrop-filter: blur(10px);
+  z-index: 1000;
+  box-sizing: border-box;
 }
+
+/* Prevent button from stretching */
+.sec-header-content button {
+  padding: 0.4rem 0.9rem;
+  font-size: 0.95rem;
+  white-space: nowrap; /* keeps text in one line */
+  flex-shrink: 0; /* prevents it from expanding */
+  max-width: fit-content; 
+}
+
+/* Tablet adjustments */
+@media (max-width: 992px) {
+  .sec-header-content {
+    padding: 0.5rem 1rem;
+    height: 56px;
+  }
+}
+
+/* Mobile adjustments */
+@media (max-width: 600px) {
+  .sec-header-content {
+    flex-direction: column;
+    height: auto;
+    padding: 0.75rem;
+    border-radius: 0;
+    gap: 0.5rem;
+  }
+
+  .sec-header-content button {
+    width: 100%; /* full width button on mobile */
+    text-align: center;
+  }
+}
+
 
 .header-left {
   display: flex;
@@ -668,9 +706,6 @@ input, textarea {
     padding: 1rem;
   }
 
-  .header-content {
-    padding: 0;
-  }
 
   .dashboard-content {
     padding: 0 1rem;

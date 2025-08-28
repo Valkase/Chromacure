@@ -16,16 +16,14 @@ import ResearchCollaboration from "./pages/ResearchCollaboration"
 import SupportMission from "./pages/SupportMission"
 import AuthOverlay from "./components/AuthOverlay"
 import UserDashboard from "./pages/PatientDashboard"
-import Chat from "./components/Chat"
+import AdminDashboard from "./components/AdminDashboard" 
 import Loader from "./components/Loader"
 import "./App.css"
 
 const auth = getAuth()
 const db = getFirestore()
 
-
-
-// Protected Route component
+// Protected Route component for patients
 const ProtectedRoute = ({ children, user, isLoading }) => {
   if (isLoading) {
     return <Loader />
@@ -33,6 +31,23 @@ const ProtectedRoute = ({ children, user, isLoading }) => {
   
   if (!user) {
     return <Navigate to="/" replace />
+  }
+  
+  return children
+}
+
+// Protected Route component for admins
+const AdminRoute = ({ children, user, userData, isLoading }) => {
+  if (isLoading) {
+    return <Loader />
+  }
+  
+  if (!user) {
+    return <Navigate to="/" replace />
+  }
+  
+  if (userData?.role !== 'admin') {
+    return <Navigate to="/dashboard" replace />
   }
   
   return children
@@ -84,10 +99,11 @@ function App() {
 
   // Show loading screen during initial auth check
   if (isAuthLoading) {
-    return (<div className="loading-screen">
+    return (
+      <div className="loading-screen">
         <Loader />
-    </div>)
-            
+      </div>
+    )
   }
 
   return (
@@ -102,48 +118,100 @@ function App() {
 
         {/* Main App Content */}
         {user ? (
-          // Authenticated User Experience - Dashboard-focused
-          <Routes>
-            <Route path="/dashboard" element={
-              <ProtectedRoute user={user} isLoading={isAuthLoading}>
-                <UserDashboard user={user} />
-              </ProtectedRoute>
-            } />
-            
-            {/* Redirect authenticated users to dashboard by default */}
-            <Route path="/" element={<Navigate to="/dashboard" replace />} />
-            
-            {/* Optional: Keep some public pages accessible to authenticated users */}
-            <Route path="/about" element={
-              <>
-                <Header 
-                  user={user}
-                  onSignInClick={() => setShowAuthOverlay(true)}
-                  onSignOut={() => {
-                    setUser(null)
-                    setUserData(null)
-                  }}
-                />
-                <About />
-              </>
-            } />
-            <Route path="/contact" element={
-              <>
-                <Header 
-                  user={user}
-                  onSignInClick={() => setShowAuthOverlay(true)}
-                  onSignOut={() => {
-                    setUser(null)
-                    setUserData(null)
-                  }}
-                />
-                <Contact />
-              </>
-            } />
-            
-            {/* Catch all route - redirect to dashboard */}
-            <Route path="*" element={<Navigate to="/dashboard" replace />} />
-          </Routes>
+          // Authenticated User Experience
+          <>
+            {userData?.role === 'admin' ? (
+              // Admin Experience
+              <Routes>
+                <Route path="/admin" element={
+                  <AdminRoute user={user} userData={userData} isLoading={isAuthLoading}>
+                    <AdminDashboard user={user} />
+                  </AdminRoute>
+                } />
+                
+                {/* Redirect admins to admin dashboard by default */}
+                <Route path="/" element={<Navigate to="/admin" replace />} />
+                <Route path="/dashboard" element={<Navigate to="/admin" replace />} />
+                
+                {/* Optional: Keep some public pages accessible to admins */}
+                <Route path="/about" element={
+                  <>
+                    <Header 
+                      user={user}
+                      onSignInClick={() => setShowAuthOverlay(true)}
+                      onSignOut={() => {
+                        setUser(null)
+                        setUserData(null)
+                      }}
+                    />
+                    <About />
+                  </>
+                } />
+                <Route path="/contact" element={
+                  <>
+                    <Header 
+                      user={user}
+                      onSignInClick={() => setShowAuthOverlay(true)}
+                      onSignOut={() => {
+                        setUser(null)
+                        setUserData(null)
+                      }}
+                    />
+                    <Contact />
+                  </>
+                } />
+                
+                {/* Catch all route - redirect to admin dashboard */}
+                <Route path="*" element={<Navigate to="/admin" replace />} />
+              </Routes>
+            ) : (
+              // Patient Experience - Dashboard-focused
+              <Routes>
+                <Route path="/dashboard" element={
+                  <ProtectedRoute user={user} isLoading={isAuthLoading}>
+                    <UserDashboard user={user} />
+                  </ProtectedRoute>
+                } />
+                
+                {/* Redirect authenticated patients to dashboard by default */}
+                <Route path="/" element={<Navigate to="/dashboard" replace />} />
+                
+                {/* Block admin routes for patients */}
+                <Route path="/admin" element={<Navigate to="/dashboard" replace />} />
+                
+                {/* Optional: Keep some public pages accessible to authenticated patients */}
+                <Route path="/about" element={
+                  <>
+                    <Header 
+                      user={user}
+                      onSignInClick={() => setShowAuthOverlay(true)}
+                      onSignOut={() => {
+                        setUser(null)
+                        setUserData(null)
+                      }}
+                    />
+                    <About />
+                  </>
+                } />
+                <Route path="/contact" element={
+                  <>
+                    <Header 
+                      user={user}
+                      onSignInClick={() => setShowAuthOverlay(true)}
+                      onSignOut={() => {
+                        setUser(null)
+                        setUserData(null)
+                      }}
+                    />
+                    <Contact />
+                  </>
+                } />
+                
+                {/* Catch all route - redirect to dashboard */}
+                <Route path="*" element={<Navigate to="/dashboard" replace />} />
+              </Routes>
+            )}
+          </>
         ) : (
           // Public/Unauthenticated User Experience
           <>
@@ -168,8 +236,9 @@ function App() {
               <Route path="/research-collaboration" element={<ResearchCollaboration />} />
               <Route path="/support-mission" element={<SupportMission />} />
               
-              {/* Redirect dashboard access to home for unauthenticated users */}
+              {/* Redirect dashboard and admin access to home for unauthenticated users */}
               <Route path="/dashboard" element={<Navigate to="/" replace />} />
+              <Route path="/admin" element={<Navigate to="/" replace />} />
             </Routes>
             
             {/* Optional: Keep chat for public users */}

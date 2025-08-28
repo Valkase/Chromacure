@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { initializeApp } from "firebase/app"
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth"
-import { getFirestore, doc, setDoc } from "firebase/firestore"
+import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore"
 // Note: useNavigate would be imported from react-router-dom in actual implementation
 import { Eye, EyeOff, X, User, Mail, Lock, Calendar, UserCheck } from "lucide-react"
 import "../styles/AuthOverlay.css"
@@ -24,7 +24,7 @@ const app = initializeApp(firebaseConfig)
 const auth = getAuth(app)
 const db = getFirestore(app)
 
-const AuthOverlay = ({ isOpen, onClose }) => {
+const AuthOverlay = ({ isOpen, onClose, onAuthSuccess }) => {
     const [isSignUp, setIsSignUp] = useState(true)
     const [showPassword, setShowPassword] = useState(false)
     const [formData, setFormData] = useState({
@@ -147,6 +147,7 @@ const AuthOverlay = ({ isOpen, onClose }) => {
                     age: Number.parseInt(formData.age),
                     email: formData.email,
                     password: formData.password,
+                    role: "patient", // Default role for new users
                     createdAt: new Date(),
                     uid: user.uid,
                 }
@@ -161,19 +162,44 @@ const AuthOverlay = ({ isOpen, onClose }) => {
                 console.log("Sign up successful:", userData)
                 console.log("User created with UID:", user.uid)
 
-                // navigate('/UserDashboard'); // Uncomment when using with react-router-dom
-                console.log("Would navigate to /UserDashboard")
+                // Call onAuthSuccess callback if provided
+                if (onAuthSuccess) {
+                    onAuthSuccess({
+                        user: user,
+                        userData: userData,
+                        isNewUser: true
+                    })
+                }
+
                 onClose()
             } else {
                 // Sign in user
                 const userCredential = await signInWithEmailAndPassword(auth, formData.email, formData.password)
                 const user = userCredential.user
 
+                // Fetch user data from Firestore
+                let userData = null
+                try {
+                    const userDoc = await getDoc(doc(db, "users", user.uid))
+                    if (userDoc.exists()) {
+                        userData = userDoc.data()
+                    }
+                } catch (error) {
+                    console.error("Error fetching user data:", error)
+                }
+
                 console.log("Sign in successful:", user)
                 console.log("User signed in with UID:", user.uid)
 
-                // navigate('/UserDashboard'); // Uncomment when using with react-router-dom
-                console.log("Would navigate to /UserDashboard")
+                // Call onAuthSuccess callback if provided
+                if (onAuthSuccess) {
+                    onAuthSuccess({
+                        user: user,
+                        userData: userData,
+                        isNewUser: false
+                    })
+                }
+
                 onClose()
             }
         } catch (error) {
