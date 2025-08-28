@@ -41,6 +41,8 @@ const AuthOverlay = ({ isOpen, onClose }) => {
 
     // const navigate = useNavigate(); // Uncomment when using with react-router-dom
 
+    
+
     // Clear form when switching modes
     useEffect(() => {
         setFormData({

@@ -43,7 +43,7 @@ const Header = () => {
             </nav>
 
             <button className="get-support-btn" onClick={() => setIsAuthOpen(true)}>
-              Get Support
+              Join Us
             </button>
 
             <button className="menu-toggle" onClick={() => setIsMenuOpen(!isMenuOpen)}>

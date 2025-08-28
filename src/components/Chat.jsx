@@ -1,50 +1,8 @@
-"use client"
 
-import { useState } from "react"
+
 
 const Chat = () => {
-  const [isOpen, setIsOpen] = useState(false)
-  const [messages, setMessages] = useState([
-    {
-      id: 1,
-      text: "Hello! I'm here to help you with any questions about vitiligo treatment and support. How can I assist you today?",
-      sender: "bot",
-      timestamp: new Date(),
-    },
-  ])
-  const [inputMessage, setInputMessage] = useState("")
-
-  const toggleChat = () => {
-    setIsOpen(!isOpen)
-  }
-
-  const sendMessage = (e) => {
-    e.preventDefault()
-    if (inputMessage.trim() === "") return
-
-    const newMessage = {
-      id: messages.length + 1,
-      text: inputMessage,
-      sender: "user",
-      timestamp: new Date(),
-    }
-
-    setMessages([...messages, newMessage])
-    setInputMessage("")
-
-    // Simulate bot response (replace with actual chatbot integration)
-    setTimeout(() => {
-      const botResponse = {
-        id: messages.length + 2,
-        text: "Thank you for your message. Our chatbot integration is currently in development. For immediate assistance, please use our contact form or call our support team.",
-        sender: "bot",
-        timestamp: new Date(),
-      }
-      setMessages((prev) => [...prev, botResponse])
-    }, 1000)
-  }
-
-  return (
+  {/*  return (
     <div className={`chat-widget ${isOpen ? "chat-open" : ""}`}>
       <button className="chat-toggle" onClick={toggleChat}>
         {isOpen ? (
@@ -105,7 +63,8 @@ const Chat = () => {
         </div>
       )}
     </div>
-  )
+  ) */}
+
 }
 
 export default Chat

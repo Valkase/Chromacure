@@ -27,7 +27,7 @@ const ThemeToggle = () => {
             document.documentElement.setAttribute('data-theme', 'light')
             localStorage.setItem('theme', 'light')
         }
-    }, [!isDark])
+    }, [isDark])
 
     const handleToggle = () => {
         setIsDark(!isDark)
