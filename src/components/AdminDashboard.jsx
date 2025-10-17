@@ -29,6 +29,7 @@ import {
 } from "lucide-react"
 
 import ThemeToggle from "./ThemeToggle.jsx"
+import "../styles/AdminDashboard.css"
 
 const auth = getAuth()
 const db = getFirestore()
@@ -103,124 +104,55 @@ const AdminChat = ({ selectedPatient, onBack, adminUser }) => {
 
     if (isLoading) {
         return (
-            <div style={{
-                background: 'white',
-                borderRadius: '0.75rem',
-                border: '1px solid #e2e8f0',
-                height: '600px',
-                display: 'flex',
-                flexDirection: 'column'
-            }}>
-                <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '1rem',
-                    padding: '1rem 1.5rem',
-                    borderBottom: '1px solid #e2e8f0'
-                }}>
-                    <button onClick={onBack} style={{
-                        background: 'none',
-                        border: 'none',
-                        cursor: 'pointer',
-                        padding: '0.5rem',
-                        borderRadius: '0.25rem',
-                        color: '#64748b'
-                    }}>
+            <div className="chat-container">
+                <div className="chat-header">
+                    <button onClick={onBack} className="chat-back-btn">
                         <ArrowLeft size={20} />
                     </button>
-                    <div>
-                        <h3 style={{ margin: '0 0 0.25rem 0', color: '#1e293b' }}>Loading chat...</h3>
+                    <div className="chat-header-info">
+                        <h3 className="chat-header-title">Loading chat...</h3>
                     </div>
                 </div>
-                <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    flex: 1,
-                    color: '#64748b'
-                }}>Loading messages...</div>
+                <div className="chat-messages-area">
+                    <div className="chat-empty-state">Loading messages...</div>
+                </div>
             </div>
         )
     }
 
     return (
-        <div style={{
-            background: 'white',
-            borderRadius: '0.75rem',
-            border: '1px solid #e2e8f0',
-            height: '600px',
-            display: 'flex',
-            flexDirection: 'column'
-        }}>
-            <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '1rem',
-                padding: '1rem 1.5rem',
-                borderBottom: '1px solid #e2e8f0'
-            }}>
-                <button onClick={onBack} style={{
-                    background: 'none',
-                    border: 'none',
-                    cursor: 'pointer',
-                    padding: '0.5rem',
-                    borderRadius: '0.25rem',
-                    color: '#64748b'
-                }}>
+        <div className="chat-container">
+            <div className="chat-header">
+                <button onClick={onBack} className="chat-back-btn">
                     <ArrowLeft size={20} />
                 </button>
-                <div>
-                    <h3 style={{ margin: '0 0 0.25rem 0', color: '#1e293b' }}>
+                <div className="chat-header-info">
+                    <h3 className="chat-header-title">
                         Chat with {selectedPatient.firstName} {selectedPatient.lastName}
                     </h3>
-                    <p style={{ margin: 0, color: '#64748b', fontSize: '0.875rem' }}>
+                    <p className="chat-header-email">
                         {selectedPatient.email}
                     </p>
                 </div>
             </div>
 
-            <div style={{
-                flex: 1,
-                overflowY: 'auto',
-                padding: '1rem',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '1rem'
-            }}>
+            <div className="chat-messages-area">
                 {messages.length === 0 ? (
-                    <div style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        height: '200px',
-                        color: '#64748b',
-                        textAlign: 'center'
-                    }}>
-                        <MessageCircle size={48} style={{ marginBottom: '1rem', color: '#cbd5e1' }} />
-                        <p>No messages yet. Start a conversation with {selectedPatient.firstName}!</p>
+                    <div className="chat-empty-state">
+                        <MessageCircle size={48} className="chat-empty-icon" />
+                        <p className="chat-empty-text">No messages yet. Start a conversation with {selectedPatient.firstName}!</p>
                     </div>
                 ) : (
                     messages.map((message) => (
                         <div
                             key={message.id}
-                            style={{
-                                display: 'flex',
-                                maxWidth: '70%',
-                                alignSelf: message.senderType === "patient" ? 'flex-start' : 'flex-end'
-                            }}
+                            className={`chat-message ${message.senderType}`}
                         >
-                            <div style={{
-                                padding: '0.75rem 1rem',
-                                borderRadius: '1rem',
-                                position: 'relative',
-                                background: message.senderType === "patient" ? '#f1f5f9' : '#3b82f6',
-                                color: message.senderType === "patient" ? '#1e293b' : 'white'
-                            }}>
-                                <p style={{ margin: '0 0 0.25rem 0', wordWrap: 'break-word' }}>
+                            <div className="chat-message-bubble">
+                                <p className="chat-message-text">
                                     {message.message}
                                 </p>
-                                <span style={{ fontSize: '0.75rem', opacity: 0.7 }}>
+                                <span className="chat-message-time">
                                     {message.timestamp?.toLocaleTimeString()}
                                 </span>
                             </div>
@@ -230,42 +162,21 @@ const AdminChat = ({ selectedPatient, onBack, adminUser }) => {
                 <div ref={messagesEndRef} />
             </div>
 
-            <div style={{
-                display: 'flex',
-                gap: '0.75rem',
-                padding: '1rem 1.5rem',
-                borderTop: '1px solid #e2e8f0'
-            }}>
+            <div className="chat-input-area">
                 <input
                     type="text"
                     value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
                     onKeyPress={handleKeyPress}
                     placeholder="Type your message..."
-                    style={{
-                        flex: 1,
-                        padding: '0.75rem',
-                        border: '1px solid #d1d5db',
-                        borderRadius: '0.5rem',
-                        fontSize: '0.875rem'
-                    }}
+                    className="chat-input"
                     maxLength={500}
                 />
                 <button
                     type="button"
                     onClick={sendMessage}
                     disabled={!newMessage.trim()}
-                    style={{
-                        background: newMessage.trim() ? '#3b82f6' : '#9ca3af',
-                        color: 'white',
-                        border: 'none',
-                        padding: '0.75rem',
-                        borderRadius: '0.5rem',
-                        cursor: newMessage.trim() ? 'pointer' : 'not-allowed',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                    }}
+                    className="chat-send-btn"
                 >
                     <Send size={20} />
                 </button>
@@ -277,110 +188,38 @@ const AdminChat = ({ selectedPatient, onBack, adminUser }) => {
 // Patient Card Component
 const PatientCard = ({ patient, onChatClick, onViewDetails }) => {
     return (
-        <div style={{
-            background: 'white',
-            borderRadius: '0.75rem',
-            padding: '1.5rem',
-            border: '1px solid #e2e8f0',
-            transition: 'all 0.2s'
-        }}>
-            <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '1rem',
-                marginBottom: '1rem'
-            }}>
-                <div style={{
-                    width: '50px',
-                    height: '50px',
-                    borderRadius: '50%',
-                    background: '#e2e8f0',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: '#64748b'
-                }}>
+        <div className="patient-card">
+            <div className="patient-card-header">
+                <div className="patient-avatar">
                     <User size={24} />
                 </div>
-                <div>
-                    <h4 style={{
-                        margin: '0 0 0.25rem 0',
-                        color: '#1e293b',
-                        fontSize: '1.125rem'
-                    }}>
+                <div className="patient-info">
+                    <h4 className="patient-name">
                         {patient.firstName} {patient.lastName}
                     </h4>
-                    <p style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '0.5rem',
-                        margin: '0.25rem 0',
-                        color: '#64748b',
-                        fontSize: '0.875rem'
-                    }}>
+                    <p className="patient-email">
                         <Mail size={14} />
                         {patient.email}
                     </p>
-                    <p style={{
-                        margin: '0.25rem 0',
-                        color: '#64748b',
-                        fontSize: '0.875rem'
-                    }}>
+                    <p className="patient-age">
                         Age: {patient.age}
                     </p>
                 </div>
             </div>
 
-            <div style={{
-                marginBottom: '1rem',
-                paddingTop: '0.75rem',
-                borderTop: '1px solid #f1f5f9'
-            }}>
-                <p style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.5rem',
-                    margin: 0,
-                    color: '#64748b',
-                    fontSize: '0.875rem'
-                }}>
+            <div className="patient-card-divider">
+                <p className="patient-joined">
                     <Clock size={14} />
                     Joined: {patient.createdAt?.toDate?.()?.toLocaleDateString() || 'N/A'}
                 </p>
             </div>
 
-            <div style={{ display: 'flex', gap: '0.75rem' }}>
-                <button onClick={() => onChatClick(patient)} style={{
-                    flex: 1,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '0.5rem',
-                    padding: '0.75rem',
-                    background: '#3b82f6',
-                    color: 'white',
-                    border: '1px solid #3b82f6',
-                    borderRadius: '0.5rem',
-                    cursor: 'pointer',
-                    fontSize: '0.875rem'
-                }}>
+            <div className="patient-card-actions">
+                <button onClick={() => onChatClick(patient)} className="patient-chat-btn">
                     <MessageCircle size={16} />
                     Chat
                 </button>
-                <button onClick={() => onViewDetails(patient)} style={{
-                    flex: 1,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '0.5rem',
-                    padding: '0.75rem',
-                    border: '1px solid #d1d5db',
-                    borderRadius: '0.5rem',
-                    cursor: 'pointer',
-                    background: 'white',
-                    fontSize: '0.875rem',
-                    color: '#374151'
-                }}>
+                <button onClick={() => onViewDetails(patient)} className="patient-view-btn">
                     <Calendar size={16} />
                     View Entries
                 </button>
@@ -421,125 +260,46 @@ const PatientDetailsModal = ({ patient, onClose }) => {
     }, [patient?.uid])
 
     return (
-        <div style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background: 'rgba(0, 0, 0, 0.5)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 1000
-        }} onClick={(e) => e.target === e.currentTarget && onClose()}>
-            <div style={{
-                background: 'white',
-                borderRadius: '0.75rem',
-                width: '90%',
-                maxWidth: '600px',
-                maxHeight: '80vh',
-                overflow: 'hidden',
-                display: 'flex',
-                flexDirection: 'column'
-            }}>
-                <div style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    padding: '1.5rem',
-                    borderBottom: '1px solid #e2e8f0'
-                }}>
-                    <h3 style={{ margin: 0, color: '#1e293b' }}>
+        <div className="modal-overlay" onClick={(e) => e.target === e.currentTarget && onClose()}>
+            <div className="modal-content">
+                <div className="modal-header">
+                    <h3 className="modal-title">
                         {patient.firstName} {patient.lastName} - Daily Entries
                     </h3>
-                    <button onClick={onClose} style={{
-                        background: 'none',
-                        border: 'none',
-                        fontSize: '1.5rem',
-                        cursor: 'pointer',
-                        color: '#64748b',
-                        padding: '0.25rem'
-                    }}>×</button>
+                    <button onClick={onClose} className="modal-close-btn">×</button>
                 </div>
 
-                <div style={{
-                    flex: 1,
-                    overflowY: 'auto',
-                    padding: '1.5rem'
-                }}>
+                <div className="modal-body">
                     {isLoading ? (
-                        <div style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            padding: '2rem',
-                            color: '#64748b'
-                        }}>Loading entries...</div>
+                        <div className="modal-loading">Loading entries...</div>
                     ) : dailyEntries.length === 0 ? (
-                        <div style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            padding: '2rem',
-                            color: '#64748b'
-                        }}>
-                            <Calendar size={48} style={{ marginBottom: '1rem', color: '#cbd5e1' }} />
+                        <div className="modal-empty-state">
+                            <Calendar size={48} className="modal-empty-icon" />
                             <p>No daily entries yet</p>
                         </div>
                     ) : (
-                        <div style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            gap: '1rem'
-                        }}>
+                        <div className="entries-list">
                             {dailyEntries.map((entry) => (
-                                <div key={entry.id} style={{
-                                    background: '#f8fafc',
-                                    borderRadius: '0.5rem',
-                                    padding: '1rem',
-                                    border: '1px solid #e2e8f0'
-                                }}>
-                                    <div style={{
-                                        fontWeight: 600,
-                                        color: '#1e293b',
-                                        marginBottom: '0.5rem'
-                                    }}>
+                                <div key={entry.id} className="entry-card">
+                                    <div className="entry-date">
                                         {entry.date?.toLocaleDateString() || 'Invalid Date'}
                                     </div>
-                                    <div style={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: '0.5rem',
-                                        marginBottom: '0.5rem'
-                                    }}>
-                                        <div style={{ display: 'flex', gap: '0.125rem' }}>
+                                    <div className="entry-rating">
+                                        <div className="stars-container">
                                             {[...Array(5)].map((_, i) => (
                                                 <Star
                                                     key={i}
                                                     size={16}
-                                                    style={{ color: i < entry.rating ? '#fbbf24' : '#d1d5db' }}
+                                                    className={`star-icon ${i < entry.rating ? '' : 'empty'}`}
                                                     fill={i < entry.rating ? 'currentColor' : 'none'}
                                                 />
                                             ))}
                                         </div>
-                                        <span>({entry.rating}/5)</span>
+                                        <span className="rating-text">({entry.rating}/5)</span>
                                     </div>
                                     {entry.summary && (
-                                        <div style={{
-                                            marginTop: '0.5rem',
-                                            padding: '0.75rem',
-                                            background: 'white',
-                                            borderRadius: '0.375rem',
-                                            border: '1px solid #e2e8f0'
-                                        }}>
-                                            <p style={{
-                                                margin: 0,
-                                                color: '#374151',
-                                                fontStyle: 'italic'
-                                            }}>"{entry.summary}"</p>
+                                        <div className="entry-summary">
+                                            <p className="entry-summary-text">"{entry.summary}"</p>
                                         </div>
                                     )}
                                 </div>
@@ -620,146 +380,59 @@ const AdminDashboard = ({ user }) => {
 
     if (isLoading) {
         return (
-            <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                minHeight: '100vh',
-                color: '#64748b'
-            }}>
-                <div style={{
-                    width: '32px',
-                    height: '32px',
-                    border: '3px solid #e2e8f0',
-                    borderTopColor: '#3b82f6',
-                    borderRadius: '50%',
-                    animation: 'spin 1s linear infinite',
-                    marginBottom: '1rem'
-                }}></div>
-                <p>Loading admin dashboard...</p>
+            <div className="loading-container">
+                <div className="loading-spinner"></div>
+                <p className="loading-text">Loading admin dashboard...</p>
             </div>
         )
     }
 
     return (
-        <div style={{ minHeight: '100vh', backgroundColor: '#f8fafc' }}>
-            <header style={{
-                background: 'white',
-                borderBottom: '1px solid #e2e8f0',
-                padding: '1rem 2rem'
-            }}>
-                <div style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    maxWidth: '1400px',
-                    margin: '0 auto'
-                }}>
-                    <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '1rem'
-                    }}>
-                        <Heart size={24} />
+        <div className="admin-dashboard">
+            <header className="admin-header">
+                <div className="admin-header-content">
+                    <div className="admin-header-left">
+                        <Heart size={24} className="admin-header-icon" />
                         <div>
-                            <h1 style={{
-                                margin: 0,
-                                fontSize: '1.5rem',
-                                color: '#1e293b'
-                            }}>VitaCure Admin Dashboard</h1>
-                            <p style={{
-                                margin: 0,
-                                color: '#64748b',
-                                fontSize: '0.875rem'
-                            }}>Welcome, {user?.displayName || user?.email}</p>
+                            <h1 className="admin-header-title">VitaCure Admin Dashboard</h1>
+                            <p className="admin-header-subtitle">Welcome, {user?.displayName || user?.email}</p>
                         </div>
                     </div>
                     {/*<ThemeToggle />*/}
-                    <button onClick={handleSignOut} style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '0.5rem',
-                        background: '#ef4444',
-                        color: 'white',
-                        border: 'none',
-                        padding: '0.75rem 1rem',
-                        borderRadius: '0.5rem',
-                        cursor: 'pointer'
-                    }}>
+                    <button onClick={handleSignOut} className="admin-sign-out-btn">
                         <LogOut size={18} />
                         Sign Out
                     </button>
                 </div>
             </header>
 
-            <div style={{
-                maxWidth: '1400px',
-                margin: '0 auto',
-                padding: '2rem'
-            }}>
+            <div className="admin-main-content">
                 {activeView === "patients" ? (
                     <div>
-                        <div style={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                            marginBottom: '2rem'
-                        }}>
-                            <div style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '0.75rem'
-                            }}>
-                                <Users size={24} />
-                                <h2 style={{ margin: 0, color: '#1e293b' }}>
+                        <div className="patients-view-header">
+                            <div className="patients-view-title-section">
+                                <Users size={24} className="patients-view-icon" />
+                                <h2 className="patients-view-title">
                                     Patients ({filteredPatients.length})
                                 </h2>
                             </div>
-                            <div style={{
-                                position: 'relative',
-                                display: 'flex',
-                                alignItems: 'center'
-                            }}>
-                                <Search size={20} style={{
-                                    position: 'absolute',
-                                    left: '0.75rem',
-                                    color: '#64748b'
-                                }} />
+                            <div className="search-container">
+                                <Search size={20} className="search-icon" />
                                 <input
                                     type="text"
                                     placeholder="Search patients..."
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
-                                    style={{
-                                        padding: '0.75rem 0.75rem 0.75rem 2.5rem',
-                                        border: '1px solid #d1d5db',
-                                        borderRadius: '0.5rem',
-                                        width: '300px',
-                                        fontSize: '0.875rem'
-                                    }}
+                                    className="search-input"
                                 />
                             </div>
                         </div>
 
-                        <div style={{
-                            display: 'grid',
-                            gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-                            gap: '1.5rem'
-                        }}>
+                        <div className="patients-grid">
                             {filteredPatients.length === 0 ? (
-                                <div style={{
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    gridColumn: '1 / -1',
-                                    height: '200px',
-                                    color: '#64748b',
-                                    textAlign: 'center'
-                                }}>
-                                    <Users size={48} style={{ marginBottom: '1rem', color: '#cbd5e1' }} />
-                                    <p>
+                                <div className="empty-state">
+                                    <Users size={48} className="empty-state-icon" />
+                                    <p className="empty-state-text">
                                         {searchTerm ? "No patients found matching your search" : "No patients registered yet"}
                                     </p>
                                 </div>
@@ -790,14 +463,6 @@ const AdminDashboard = ({ user }) => {
                     onClose={() => setShowPatientDetails(null)}
                 />
             )}
-
-            <style>
-                {`
-          @keyframes spin {
-            to { transform: rotate(360deg); }
-          }
-        `}
-            </style>
         </div>
     )
 }   
