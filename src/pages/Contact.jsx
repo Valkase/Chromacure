@@ -1,9 +1,9 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, addDoc } from 'firebase/firestore';
-import { getAuth, signInAnonymously } from 'firebase/auth';
+import { initializeApp } from "firebase/app"
+import { getFirestore, collection, addDoc } from "firebase/firestore"
+import { getAuth, signInAnonymously } from "firebase/auth"
 
 // Firebase configuration - hardcoded for Netlify deployment
 const firebaseConfig = {
@@ -13,20 +13,20 @@ const firebaseConfig = {
   storageBucket: "chromacure-4aac2.firebasestorage.app",
   messagingSenderId: "659675138326",
   appId: "1:659675138326:web:70317441370a6d682ee837",
-  measurementId: "G-LK4JQB238F"
-};
+  measurementId: "G-LK4JQB238F",
+}
 
 // Initialize Firebase app
-let app;
-let db;
-let auth;
+let app
+let db
+let auth
 
 try {
-  app = initializeApp(firebaseConfig);
-  db = getFirestore(app);
-  auth = getAuth(app);
+  app = initializeApp(firebaseConfig)
+  db = getFirestore(app)
+  auth = getAuth(app)
 } catch (error) {
-  console.error("Error initializing Firebase:", error);
+  console.error("Error initializing Firebase:", error)
 }
 
 const Contact = () => {
@@ -37,70 +37,70 @@ const Contact = () => {
     subject: "",
     message: "",
     userType: "patient",
-  });
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [isFirebaseReady, setIsFirebaseReady] = useState(false);
+  })
+  const [isSubmitted, setIsSubmitted] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState(null)
+  const [isFirebaseReady, setIsFirebaseReady] = useState(false)
 
   useEffect(() => {
     const initAuth = async () => {
       if (!auth || !db) {
-        setError("Firebase initialization failed");
-        return;
+        setError("Firebase initialization failed")
+        return
       }
 
       try {
         // Sign in anonymously for public contact form
-        await signInAnonymously(auth);
-        setIsFirebaseReady(true);
-        console.log("Firebase authentication successful");
+        await signInAnonymously(auth)
+        setIsFirebaseReady(true)
+        console.log("Firebase authentication successful")
       } catch (e) {
-        console.error("Firebase authentication failed:", e);
-        setError("Failed to connect to the database: " + e.message);
+        console.error("Firebase authentication failed:", e)
+        setError("Failed to connect to the database: " + e.message)
       }
-    };
+    }
 
-    initAuth();
-  }, []);
+    initAuth()
+  }, [])
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
-    });
-  };
+    })
+  }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    
+    e.preventDefault()
+
     if (!isFirebaseReady || !db) {
-      setError("Database is not ready. Please try again in a moment.");
-      return;
+      setError("Database is not ready. Please try again in a moment.")
+      return
     }
 
-    setIsLoading(true);
-    setError(null);
+    setIsLoading(true)
+    setError(null)
 
     try {
       // Use a simple collection path for Netlify deployment
-      const contactsRef = collection(db, 'contacts');
-      
+      const contactsRef = collection(db, "contacts")
+
       const submissionData = {
         ...formData,
         timestamp: new Date().toISOString(),
-        source: 'website_contact_form'
-      };
+        source: "website_contact_form",
+      }
 
-      console.log("Submitting data:", submissionData);
-      await addDoc(contactsRef, submissionData);
-      
-      console.log("Form submitted successfully");
-      setIsSubmitted(true);
-      
+      console.log("Submitting data:", submissionData)
+      await addDoc(contactsRef, submissionData)
+
+      console.log("Form submitted successfully")
+      setIsSubmitted(true)
+
       // Reset form after 5 seconds
       setTimeout(() => {
-        setIsSubmitted(false);
+        setIsSubmitted(false)
         setFormData({
           name: "",
           email: "",
@@ -108,16 +108,15 @@ const Contact = () => {
           subject: "",
           message: "",
           userType: "patient",
-        });
-      }, 5000);
-
+        })
+      }, 5000)
     } catch (err) {
-      console.error("Error submitting form: ", err);
-      setError("Failed to send message: " + err.message);
+      console.error("Error submitting form: ", err)
+      setError("Failed to send message: " + err.message)
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   return (
     <div className="contact-page">
@@ -138,7 +137,8 @@ const Contact = () => {
                 </svg>
               </div>
               <div>
-                
+                <h3>Location</h3>
+                <p>Global Support Available</p>
               </div>
             </div>
 
@@ -166,7 +166,8 @@ const Contact = () => {
                 </svg>
               </div>
               <div>
-              
+                <h3>Phone</h3>
+                <p>Available upon request</p>
               </div>
             </div>
 
@@ -195,7 +196,7 @@ const Contact = () => {
                 <p>Connecting to database...</p>
               </div>
             )}
-            
+
             {isSubmitted ? (
               <div className="success-message">
                 <div className="success-icon">
@@ -211,26 +212,22 @@ const Contact = () => {
               <form className="contact-form" onSubmit={handleSubmit}>
                 <h2>Send us a Message</h2>
                 {error && (
-                  <div style={{ 
-                    color: 'red', 
-                    background: '#ffebee', 
-                    padding: '10px', 
-                    borderRadius: '4px',
-                    marginBottom: '15px'
-                  }}>
+                  <div
+                    style={{
+                      color: "red",
+                      background: "#ffebee",
+                      padding: "10px",
+                      borderRadius: "4px",
+                      marginBottom: "15px",
+                    }}
+                  >
                     {error}
                   </div>
                 )}
 
                 <div className="form-group">
                   <label htmlFor="userType">I am a:</label>
-                  <select 
-                    id="userType" 
-                    name="userType" 
-                    value={formData.userType} 
-                    onChange={handleChange} 
-                    required
-                  >
+                  <select id="userType" name="userType" value={formData.userType} onChange={handleChange} required>
                     <option value="patient">Patient</option>
                     <option value="researcher">Researcher</option>
                     <option value="supporter">Supporter</option>
@@ -241,14 +238,7 @@ const Contact = () => {
                 <div className="form-row">
                   <div className="form-group">
                     <label htmlFor="name">Full Name *</label>
-                    <input 
-                      type="text" 
-                      id="name" 
-                      name="name" 
-                      value={formData.name} 
-                      onChange={handleChange} 
-                      required 
-                    />
+                    <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} required />
                   </div>
                   <div className="form-group">
                     <label htmlFor="email">Email Address *</label>
@@ -266,13 +256,7 @@ const Contact = () => {
                 <div className="form-row">
                   <div className="form-group">
                     <label htmlFor="phone">Phone Number</label>
-                    <input 
-                      type="tel" 
-                      id="phone" 
-                      name="phone" 
-                      value={formData.phone} 
-                      onChange={handleChange} 
-                    />
+                    <input type="tel" id="phone" name="phone" value={formData.phone} onChange={handleChange} />
                   </div>
                   <div className="form-group">
                     <label htmlFor="subject">Subject *</label>
@@ -299,12 +283,8 @@ const Contact = () => {
                   ></textarea>
                 </div>
 
-                <button 
-                  type="submit" 
-                  className="btn btn-primary submit-btn"
-                  disabled={isLoading || !isFirebaseReady}
-                >
-                  {isLoading ? 'Sending...' : 'Send Message'}
+                <button type="submit" className="btn btn-primary submit-btn" disabled={isLoading || !isFirebaseReady}>
+                  {isLoading ? "Sending..." : "Send Message"}
                   <svg className="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                     <line x1="22" y1="2" x2="11" y2="13" />
                     <polygon points="22,2 15,22 11,13 2,9 22,2" />
@@ -316,7 +296,7 @@ const Contact = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Contact;
+export default Contact
