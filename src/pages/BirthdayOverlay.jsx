@@ -178,19 +178,12 @@ const BirthdayOverlay = ({ isOpen, onClose, name = "Basmalla", age = 18 }) => {
             </h1>
 
             <div className="bday-message-card">
-              {/*
-                TODO (from Claude): personalize this paragraph freely —
-                it's plain text, safe to rewrite however you like.
-              */}
               <p>
-                Eighteen looks so good on you. I hope this year hands you every
-                bit of the softness, the confidence, and the quiet joy you deserve.
-                Thank you for being exactly who you are — and for letting me be
-                even a small part of your story.
+               بما ان انت مش ناوية تفكري حد بعيد ميلادك, فده يخلينا نحتفل بيه غصب عنك. كل سنة وانت طيبة يا بسمله و إن شاء الله تكون سنة سعيده عليكي
               </p>
               <p className="bday-message-emph">Here's to you, {name}. Today, and every day after it.</p>
-              {/* TODO (from Claude): swap this sign-off for your own name */}
-              <p className="bday-signoff">with love &amp; sparkles ✨</p>
+
+              <p className="bday-signoff">سنة متألقة لواحده متألقة ✨</p>
             </div>
 
             <button className="bday-continue" onClick={handleClose}>
