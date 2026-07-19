@@ -1,17 +1,45 @@
 import { Link } from "react-router-dom"
 
-import { useState } from "react"
+import { useState, useRef } from "react"
 import Particles from "../components/ParticlesBG"
 import AuthOverlay from "../components/AuthOverlay"
+import BirthdayOverlay from "../components/BirthdayOverlay"
 
 const Home = () => {
   const [isAuthOpen , setIsAuthOpen] = useState(false)
+  const [isBirthdayOpen, setIsBirthdayOpen] = useState(false)
+
+  // --- secret trigger: tap the hero badge 5 times within 2 seconds ---
+  // Purely local (no Firebase, no network) — just a tap counter with a timeout window.
+  const tapDataRef = useRef({ count: 0, lastTap: 0 })
+  const SECRET_TAP_COUNT = 5
+  const SECRET_TAP_WINDOW_MS = 2000
+
+  const handleSecretTap = () => {
+    const now = Date.now()
+    const data = tapDataRef.current
+    if (now - data.lastTap > SECRET_TAP_WINDOW_MS) {
+      data.count = 0
+    }
+    data.count += 1
+    data.lastTap = now
+    if (data.count >= SECRET_TAP_COUNT) {
+      data.count = 0
+      setIsBirthdayOpen(true)
+    }
+  }
 
   return (
     <div className="home">
       <AuthOverlay 
         isOpen={isAuthOpen} 
         onClose={() => setIsAuthOpen(false)} 
+      />
+      <BirthdayOverlay
+        isOpen={isBirthdayOpen}
+        onClose={() => setIsBirthdayOpen(false)}
+        name="Basmalla"
+        age={18}
       />
       {/* Hero Section */}
       <section className="hero">
@@ -29,7 +57,7 @@ const Home = () => {
         </div>
         <div className="container">
           <div className="hero-content">
-            <div className="hero-badge">Innovative Medical Research</div>
+            <div className="hero-badge" onClick={handleSecretTap}>Innovative Medical Research</div>
             <h1 className="hero-title">
               Revolutionary Treatment for <span className="highlight">Vitiligo</span>
             </h1>
