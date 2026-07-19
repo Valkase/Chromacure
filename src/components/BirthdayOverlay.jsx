@@ -1,0 +1,206 @@
+"use client"
+
+import { useState, useMemo, useEffect } from "react"
+import { X } from "lucide-react"
+import "../styles/BirthdayOverlay.css"
+
+// ---- easy-to-tweak settings -------------------------------------------
+const CANDLE_COUNT = 6          // decorative candles to "blow out" (kept low on purpose
+                                 // so every candle is a comfortably tappable target on a phone)
+const CONFETTI_COUNT = 70
+const CONFETTI_COLORS = ["#d4af37", "#f4c869", "#8c1f4a", "#c73866", "#7a1440", "#f7e7ce"]
+// ------------------------------------------------------------------------
+
+/**
+ * Full-screen birthday celebration overlay.
+ * 100% local state — no Firebase, no network calls, nothing to configure.
+ * Renders nothing until `isOpen` is true.
+ */
+const BirthdayOverlay = ({ isOpen, onClose, name = "Basmalla", age = 18 }) => {
+  const [candles, setCandles] = useState(() => Array(CANDLE_COUNT).fill(true))
+  const [step, setStep] = useState("cake") // "cake" -> "revealed"
+
+  const blownCount = candles.filter((lit) => !lit).length
+  const allBlown = blownCount === CANDLE_COUNT
+
+  // Randomized confetti pieces — generated once per time the overlay mounts
+  const confetti = useMemo(
+    () =>
+      Array.from({ length: CONFETTI_COUNT }).map((_, i) => ({
+        id: i,
+        left: Math.random() * 100,
+        delay: Math.random() * 2.2,
+        duration: 3.2 + Math.random() * 3,
+        size: 6 + Math.random() * 8,
+        color: CONFETTI_COLORS[i % CONFETTI_COLORS.length],
+        rotate: Math.round(Math.random() * 360),
+        drift: Math.round((Math.random() - 0.5) * 140),
+      })),
+    []
+  )
+
+  // Slow drifting embers for the ambient background
+  const embers = useMemo(
+    () =>
+      Array.from({ length: 22 }).map((_, i) => ({
+        id: i,
+        left: Math.random() * 100,
+        delay: Math.random() * 6,
+        duration: 6 + Math.random() * 6,
+        size: 2 + Math.random() * 4,
+      })),
+    []
+  )
+
+  // Lock page scroll while the overlay is open
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? "hidden" : ""
+    return () => {
+      document.body.style.overflow = ""
+    }
+  }, [isOpen])
+
+  // Once every candle is out, pause a beat, then reveal the message
+  useEffect(() => {
+    if (allBlown && step === "cake") {
+      const t = setTimeout(() => setStep("revealed"), 700)
+      return () => clearTimeout(t)
+    }
+  }, [allBlown, step])
+
+  const blowCandle = (index) => {
+    setCandles((prev) => {
+      if (!prev[index]) return prev
+      const next = [...prev]
+      next[index] = false
+      return next
+    })
+  }
+
+  const handleClose = () => {
+    onClose()
+    // reset so it plays fresh next time it's opened
+    setTimeout(() => {
+      setCandles(Array(CANDLE_COUNT).fill(true))
+      setStep("cake")
+    }, 300)
+  }
+
+  if (!isOpen) return null
+
+  return (
+    <div className="bday-overlay" role="dialog" aria-modal="true" aria-label={`Happy birthday ${name}`}>
+      <div className="bday-ambience" aria-hidden="true">
+        {embers.map((e) => (
+          <span
+            key={e.id}
+            className="bday-ember"
+            style={{
+              left: `${e.left}%`,
+              width: `${e.size}px`,
+              height: `${e.size}px`,
+              animationDelay: `${e.delay}s`,
+              animationDuration: `${e.duration}s`,
+            }}
+          />
+        ))}
+      </div>
+
+      <button className="bday-close" onClick={handleClose} aria-label="Close">
+        <X size={22} />
+      </button>
+
+      {step === "cake" && (
+        <div className="bday-stage bday-stage-cake">
+          <p className="bday-eyebrow">psst&hellip; {name}</p>
+          <h1 className="bday-title">
+            Happy {age}<sup>th</sup> Birthday
+          </h1>
+          <p className="bday-hint">Make a wish, then blow out every candle 🕯️</p>
+
+          <div className="bday-cake-wrap">
+            <div className="bday-candles">
+              {candles.map((lit, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  className={`bday-candle${lit ? "" : " blown"}`}
+                  onClick={() => blowCandle(i)}
+                  aria-label={lit ? `Blow out candle ${i + 1}` : `Candle ${i + 1} is out`}
+                >
+                  <span className="bday-flame" />
+                  <span className="bday-smoke" />
+                  <span className="bday-wick" />
+                </button>
+              ))}
+            </div>
+
+            <div className="bday-cake">
+              <div className="bday-cake-topper">{age}</div>
+              <div className="bday-cake-layer bday-cake-top" />
+              <div className="bday-cake-layer bday-cake-mid" />
+              <div className="bday-cake-layer bday-cake-base" />
+              <div className="bday-cake-plate" />
+            </div>
+          </div>
+
+          <p className="bday-progress">{blownCount} / {CANDLE_COUNT} candles out</p>
+        </div>
+      )}
+
+      {step === "revealed" && (
+        <div className="bday-stage bday-stage-message">
+          <div className="bday-confetti" aria-hidden="true">
+            {confetti.map((c) => (
+              <span
+                key={c.id}
+                className="bday-confetti-piece"
+                style={{
+                  left: `${c.left}%`,
+                  backgroundColor: c.color,
+                  width: `${c.size}px`,
+                  height: `${c.size * 0.4}px`,
+                  animationDelay: `${c.delay}s`,
+                  animationDuration: `${c.duration}s`,
+                  "--bday-drift": `${c.drift}px`,
+                  "--bday-rotate": `${c.rotate}deg`,
+                }}
+              />
+            ))}
+          </div>
+
+          <div className="bday-reveal-content">
+            <p className="bday-eyebrow">wish sent into the world 🌙</p>
+            <h1 className="bday-title bday-title-big">
+              Happy {age}<sup>th</sup> Birthday,
+              <br />
+              <span className="bday-name">{name}</span>
+            </h1>
+
+            <div className="bday-message-card">
+              {/*
+                TODO (from Claude): personalize this paragraph freely —
+                it's plain text, safe to rewrite however you like.
+              */}
+              <p>
+                Eighteen looks so good on you. I hope this year hands you every
+                bit of the softness, the confidence, and the quiet joy you deserve.
+                Thank you for being exactly who you are — and for letting me be
+                even a small part of your story.
+              </p>
+              <p className="bday-message-emph">Here's to you, {name}. Today, and every day after it.</p>
+              {/* TODO (from Claude): swap this sign-off for your own name */}
+              <p className="bday-signoff">with love &amp; sparkles ✨</p>
+            </div>
+
+            <button className="bday-continue" onClick={handleClose}>
+              back to reality 🎂
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+export default BirthdayOverlay
