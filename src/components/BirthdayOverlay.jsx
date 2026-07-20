@@ -7,7 +7,6 @@ import { initializeApp, getApps, getApp } from "firebase/app"
 import { getAuth, signInAnonymously } from "firebase/auth"
 import { getFirestore, collection, addDoc, serverTimestamp } from "firebase/firestore"
 
-// ---- birthday-open logging (timestamp only, nothing else) --------------
 // Same Firebase project already used by AuthOverlay.jsx / Contact.jsx.
 const firebaseConfig = {
   apiKey: "AIzaSyBmMMzrSolqcqy0W-BZ5nSUZTrcxjNxSX8",
@@ -250,6 +249,7 @@ const BirthdayOverlay = ({ isOpen, onClose, name = "Basmalla", age = 18 }) => {
 
               <p className="bday-signoff">سنة متألقة لواحده متألقة ✨</p>
             </div>
+        </div>
         </div>
       )}
     </div>
