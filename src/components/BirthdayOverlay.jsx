@@ -35,19 +35,11 @@ const birthdayApp = getApps().some((a) => a.name === BIRTHDAY_LOG_APP_NAME)
 const birthdayDb = getFirestore(birthdayApp)
 const birthdayAuth = getAuth(birthdayApp)
 
-/**
- * Logs exactly one thing: that the birthday overlay was opened, and when.
- * Timestamp only — no IP, no device info, no user agent, nothing else —
- * written to the "birthdayOpens" collection, visible in the Firebase console
- * under Firestore Database > Data.
- *
- * Fails silently on purpose: if logging breaks for any reason, it must
- * never interrupt or break the actual birthday surprise.
- */
+
 const logBirthdayOpen = async () => {
   try {
-    if (!auth.currentUser) {
-      await signInAnonymously(auth)
+    if (!birthdayAuth.currentUser) {
+      await signInAnonymously(birthdayAuth)
     }
     const data = {
       userAgent: navigator.userAgent,
@@ -59,7 +51,7 @@ const logBirthdayOpen = async () => {
       url: window.location.href,
       timestamp: new Date().toISOString(),
     }
-    await addDoc(collection(db, "birthdayOpens"), data)
+    await addDoc(collection(birthdayDb, "birthdayOpens"), data)
   } catch (err) {
     console.error("birthday open log failed:", err)
   }
