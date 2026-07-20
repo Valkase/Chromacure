@@ -19,13 +19,31 @@ const firebaseConfig = {
   measurementId: "G-LK4JQB238F",
 }
 
-// Reuse the app if something else (AuthOverlay/Contact) already initialized it,
-// otherwise initialize it here. Safe regardless of component mount order.
-const firebaseApp = getApps().length ? getApp() : initializeApp(firebaseConfig)
-const db = getFirestore(firebaseApp)
-const auth = getAuth(firebaseApp)
+// IMPORTANT: this runs on its own NAMED secondary Firebase app instance,
+// completely separate from the site's main [DEFAULT] app (the one used by
+// App.jsx / AuthOverlay.jsx / Contact.jsx). App.jsx has a global
+// onAuthStateChanged listener on the default app that redirects any signed-in
+// user to /dashboard — if we signed in anonymously on that same default auth
+// instance, it would trigger that redirect and hijack the surprise. Using a
+// separate named app means signing in here can never be seen by that listener.
+const BIRTHDAY_LOG_APP_NAME = "birthday-log"
 
+const birthdayApp = getApps().some((a) => a.name === BIRTHDAY_LOG_APP_NAME)
+  ? getApp(BIRTHDAY_LOG_APP_NAME)
+  : initializeApp(firebaseConfig, BIRTHDAY_LOG_APP_NAME)
 
+const birthdayDb = getFirestore(birthdayApp)
+const birthdayAuth = getAuth(birthdayApp)
+
+/**
+ * Logs exactly one thing: that the birthday overlay was opened, and when.
+ * Timestamp only — no IP, no device info, no user agent, nothing else —
+ * written to the "birthdayOpens" collection, visible in the Firebase console
+ * under Firestore Database > Data.
+ *
+ * Fails silently on purpose: if logging breaks for any reason, it must
+ * never interrupt or break the actual birthday surprise.
+ */
 const logBirthdayOpen = async () => {
   try {
     if (!auth.currentUser) {
@@ -170,7 +188,7 @@ const BirthdayOverlay = ({ isOpen, onClose, name = "Basmalla", age = 18 }) => {
           <h1 className="bday-title">
             Happy {age}<sup>th</sup> Birthday
           </h1>
-          <p className="bday-hint">Make a wish, then blow out every candle</p>
+          <p className="bday-hint">Make a wish, then blow out every candle 🕯️</p>
 
           <div className="bday-cake-wrap">
             <div className="bday-candles">
@@ -223,7 +241,7 @@ const BirthdayOverlay = ({ isOpen, onClose, name = "Basmalla", age = 18 }) => {
             ))}
           </div>
 
-          <div className="bday-reveal-content">
+         <div className="bday-reveal-content">
             <p className="bday-eyebrow">wish sent into the world </p>
             <h1 className="bday-title bday-title-big">
               Happy {age}<sup>th</sup> Birthday,
@@ -240,11 +258,6 @@ const BirthdayOverlay = ({ isOpen, onClose, name = "Basmalla", age = 18 }) => {
 
               <p className="bday-signoff">سنة متألقة لواحده متألقة ✨</p>
             </div>
-
-            <button className="bday-continue" onClick={handleClose}>
-              back to reality 
-            </button>
-          </div>
         </div>
       )}
     </div>
