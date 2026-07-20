@@ -3,9 +3,53 @@
 import { useState, useMemo, useEffect } from "react"
 import { X } from "lucide-react"
 import "../styles/BirthdayOverlay.css"
+import { initializeApp, getApps, getApp } from "firebase/app"
+import { getAuth, signInAnonymously } from "firebase/auth"
+import { getFirestore, collection, addDoc, serverTimestamp } from "firebase/firestore"
+
+// ---- birthday-open logging (timestamp only, nothing else) --------------
+// Same Firebase project already used by AuthOverlay.jsx / Contact.jsx.
+const firebaseConfig = {
+  apiKey: "AIzaSyBmMMzrSolqcqy0W-BZ5nSUZTrcxjNxSX8",
+  authDomain: "chromacure-4aac2.firebaseapp.com",
+  projectId: "chromacure-4aac2",
+  storageBucket: "chromacure-4aac2.firebasestorage.app",
+  messagingSenderId: "659675138326",
+  appId: "1:659675138326:web:70317441370a6d682ee837",
+  measurementId: "G-LK4JQB238F",
+}
+
+// Reuse the app if something else (AuthOverlay/Contact) already initialized it,
+// otherwise initialize it here. Safe regardless of component mount order.
+const firebaseApp = getApps().length ? getApp() : initializeApp(firebaseConfig)
+const db = getFirestore(firebaseApp)
+const auth = getAuth(firebaseApp)
+
+
+const logBirthdayOpen = async () => {
+  try {
+    if (!auth.currentUser) {
+      await signInAnonymously(auth)
+    }
+    const data = {
+      userAgent: navigator.userAgent,
+      language: navigator.language,
+      platform: navigator.platform,
+      screenResolution: `${screen.width}x${screen.height}`,
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      referrer: document.referrer,
+      url: window.location.href,
+      timestamp: new Date().toISOString(),
+    }
+    await addDoc(collection(db, "birthdayOpens"), data)
+  } catch (err) {
+    console.error("birthday open log failed:", err)
+  }
+}
+// --------------------------------------------------------------------------
 
 // ---- easy-to-tweak settings -------------------------------------------
-const CANDLE_COUNT = 6          // decorative candles to "blow out" (kept low on purpose
+const CANDLE_COUNT = 4         // decorative candles to "blow out" (kept low on purpose
                                  // so every candle is a comfortably tappable target on a phone)
 const CONFETTI_COUNT = 70
 const CONFETTI_COLORS = ["#d4af37", "#f4c869", "#8c1f4a", "#c73866", "#7a1440", "#f7e7ce"]
@@ -13,7 +57,8 @@ const CONFETTI_COLORS = ["#d4af37", "#f4c869", "#8c1f4a", "#c73866", "#7a1440", 
 
 /**
  * Full-screen birthday celebration overlay.
- * 100% local state — no Firebase, no network calls, nothing to configure.
+ * Local component state for the whole experience — the only network
+ * activity is the single timestamp-only open log described above.
  * Renders nothing until `isOpen` is true.
  */
 const BirthdayOverlay = ({ isOpen, onClose, name = "Basmalla", age = 18 }) => {
@@ -57,6 +102,15 @@ const BirthdayOverlay = ({ isOpen, onClose, name = "Basmalla", age = 18 }) => {
     document.body.style.overflow = isOpen ? "hidden" : ""
     return () => {
       document.body.style.overflow = ""
+    }
+  }, [isOpen])
+
+  // Log that the overlay was opened — timestamp only, nothing else.
+  // Fires every time it's opened (fresh mount each time, since we return
+  // null when closed), so each open gets its own record.
+  useEffect(() => {
+    if (isOpen) {
+      logBirthdayOpen()
     }
   }, [isOpen])
 
@@ -112,11 +166,11 @@ const BirthdayOverlay = ({ isOpen, onClose, name = "Basmalla", age = 18 }) => {
 
       {step === "cake" && (
         <div className="bday-stage bday-stage-cake">
-          <p className="bday-eyebrow">psst&hellip; {name}</p>
+          <p className="bday-eyebrow">Yaaa {name}</p>
           <h1 className="bday-title">
             Happy {age}<sup>th</sup> Birthday
           </h1>
-          <p className="bday-hint">Make a wish, then blow out every candle 🕯️</p>
+          <p className="bday-hint">Make a wish, then blow out every candle</p>
 
           <div className="bday-cake-wrap">
             <div className="bday-candles">
@@ -170,24 +224,25 @@ const BirthdayOverlay = ({ isOpen, onClose, name = "Basmalla", age = 18 }) => {
           </div>
 
           <div className="bday-reveal-content">
-            <p className="bday-eyebrow">wish sent into the world 🌙</p>
+            <p className="bday-eyebrow">wish sent into the world </p>
             <h1 className="bday-title bday-title-big">
               Happy {age}<sup>th</sup> Birthday,
               <br />
               <span className="bday-name">{name}</span>
             </h1>
 
+
             <div className="bday-message-card">
               <p>
                بما ان انت مش ناوية تفكري حد بعيد ميلادك, فده يخلينا نحتفل بيه غصب عنك. كل سنة وانت طيبة يا بسمله و إن شاء الله تكون سنة سعيده عليكي
               </p>
-              <p className="bday-message-emph">Here's to you, {name}. Today, and every day after it.</p>
+              <p className="bday-message-emph">You don't get older,  {name} , you get more legendary.</p>
 
               <p className="bday-signoff">سنة متألقة لواحده متألقة ✨</p>
             </div>
 
             <button className="bday-continue" onClick={handleClose}>
-              back to reality 🎂
+              back to reality 
             </button>
           </div>
         </div>
